@@ -4,17 +4,19 @@ import ModernTemplate from '../templates/ModernTemplate';
 import MinimalTemplate from '../templates/MinimalTemplate';
 import MinimalImageTemplate from '../templates/MinimalImageTemplate';
 
-const ReusmePreview = ({data, template, accentColor, classes=""}) => {
+const ReusmePreview = ({resumeData, template, accentColor, classes=""}) => {
+    if (!resumeData) return null;
+
     const renderTemplate = () => {
         switch (template) {
             case "modern":
-                return <ModernTemplate data={data} accentColor={accentColor} />;
+                return <ModernTemplate data={resumeData} accentColor={accentColor} />;
             case "minimal-image":
-                return <MinimalImageTemplate data={data} accentColor={accentColor} />;
+                return <MinimalImageTemplate data={resumeData} accentColor={accentColor} />;
             case "minimal":
-                return <MinimalTemplate data={data} accentColor={accentColor} />;
+                return <MinimalTemplate data={resumeData} accentColor={accentColor} />;
             default:
-                return <ClassicTemplate data={data} accentColor={accentColor} />;
+                return <ClassicTemplate data={resumeData} accentColor={accentColor} />;
         }
     }
   return (
