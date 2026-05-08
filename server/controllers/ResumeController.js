@@ -81,24 +81,62 @@ export const updateResume = async (req, res) => {
         const userId = req.userId;
         const { resumeId, resumeData, removeBackground } = req.body
         const image = req.file;
+
+        let resumeDataCopy = JSON.parse(resumeData);
+
         if (image) {
             const imageBufferData = fs.createReadStream(image.path)
+            
+            let transformation = 'w-300,h-300,c-maintain';
+            if (removeBackground === 'yes' || removeBackground === true) {
+                transformation += ',e-bgremove';
+            }
+            transformation += ',fo-face,z-0.75';
+            
             const response = await imagekit.files.upload({
                 file: imageBufferData,
-                fileName: 'resume.png',
+                fileName: `resume-${Date.now()}.png`,
                 folder: 'user-resumes',
                 transformation: {
-                    pre: 'w-300,h-300, fo-face,z-0.75' + (removeBackground ? ',e-bgremove' : '')
-                }
+                    pre: transformation
+                }``
             });
             resumeDataCopy.personal_info.image = response.url
         }
-        let resumeDataCopy = JSON.parse(resumeData);
+
         const resume = await Resume.findByIdAndUpdate({ userId, _id: resumeId },
             resumeDataCopy, { new: true })
-        return successResponse(res, 200, "Resume fetch  Successfully!", { resume });
+        return successResponse(res, 200, "Resume Updated Successfully!", { resume });
     }
     catch (error) {
         return res.status(400).json({ message: error.message })
+    }
+}
+
+// Update Resume Title
+// PUT: /api/resumes/update-title/:resumeId
+export const updateResumeTitle = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { resumeId } = req.params;
+        const { title } = req.body;
+
+        if (!title) {
+            return errorResponse(res, 400, "Title is required");
+        }
+
+        const resume = await Resume.findOneAndUpdate(
+            { userId, _id: resumeId },
+            { title },
+            { new: true }
+        );
+
+        if (!resume) {
+            return errorResponse(res, 404, "Resume not found!");
+        }
+
+        return successResponse(res, 200, "Resume title updated successfully!", { resume });
+    } catch (error) {
+        return errorResponse(res, 400, "Failed to update resume title", error);
     }
 }

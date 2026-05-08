@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { dummyResumeData } from "../assets/assets";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Briefcase, ChevronLeft, ChevronRight, FileText, FolderIcon, GraduationCap, Sparkles, User, EyeIcon, EyeOffIcon, Share2Icon, Download } from "lucide-react";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import API from "../config/api";
 import PersonalnfoForm from "../components/forms/PersonalnfoForm";
 import ProfessionalSummaryForm from "../components/forms/ProfessionalSummaryForm";
 import ExperienceForm from "../components/forms/ExperienceForm";
@@ -11,9 +13,14 @@ import ProjectsForm from "../components/forms/ProjectsForm";
 import ReusmePreview from "../components/resume/ReusmePreview";
 import TemplateSelector from "../components/resume/TemplateSelector";
 import ColorPicker from "../components/common/ColorPicker";
+import Loader from "../components/loader/Loader";
+import html2pdf from "html2pdf.js";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(true);
   const [resumeData, setResumeData] = useState({
     _id: "",
     title: "",
@@ -26,11 +33,15 @@ const ResumeBuilder = () => {
     certifications: [],
     languages: [],
     accent_color: "",
+    template: "minimal-image",
     public: false,
   });
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [removeBackground, setRemoveBackground] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const resumePreviewRef = useRef(null);
   const sections = [
     {
       id: "personal_info",
@@ -73,23 +84,109 @@ const ResumeBuilder = () => {
   const acitiveSection = sections[activeSectionIndex];
   const loadExistingData = async () => {
     try {
-      const resume = dummyResumeData?.find((resume) => resume._id === resumeId);
-      if (resume) {
-        setResumeData(resume);
-        document.title = resume.title;
+      setLoading(true);
+      const { data } = await API.get(`api/resumes/get/${resumeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (data?.success && data?.data?.resume) {
+        const resume = data.data.resume;
+        setResumeData({
+          _id: resume._id,
+          title: resume.title || "",
+          personal_info: resume.personal_info || {},
+          professional_summary: resume.professional_summary || "",
+          experience: resume.experience || [],
+          education: resume.education || [],
+          skills: resume.skills || [],
+          projects: resume.projects || resume.project || [],
+          certifications: resume.certifications || [],
+          languages: resume.languages || [],
+          accent_color: resume.accent_color || "",
+          template: resume.template || "minimal-image",
+          public: resume.public || false,
+        });
+        document.title = resume.title || "Resume Builder";
       }
     } catch (error) {
       console.log("error", error);
+      toast.error("Failed to load resume");
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     loadExistingData();
-  }, [resumeId]);
+  }, [resumeId, token]);
 
   const handleDownload = () => {
-    window.print();
+    const printContent = document.getElementById('resume-preview');
+    if (!printContent) {
+      toast.error('Resume preview not found');
+      return;
+    }
+
+    const styles = Array.from(document.querySelectorAll('style')).map(s => s.outerHTML).join('');
+    const linkTags = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => l.outerHTML).join('');
+
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${resumeData.title || 'Resume'}</title>
+          ${linkTags}
+          ${styles}
+          <style>
+            @page { size: A4; margin: 0; }
+            body { margin: 0; background: white; }
+            @media print {
+              body * { visibility: hidden; }
+              #resume-preview, #resume-preview * { visibility: visible; }
+              #resume-preview { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+              body { background: white !important; }
+            }
+          </style>
+        </head>
+        <body>
+          ${printContent.outerHTML}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
   }
 
+
+
+  const changeResumeVisibility = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('resumeId', resumeId);
+      formData.append("resumeData", JSON.stringify({ public: !resumeData?.public }));
+
+      const { data } = await API.put('api/resumes/update', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setResumeData((prev) => ({ ...prev, public: !prev.public }));
+      if (data?.success) {
+        toast.success(`Resume is now ${!resumeData.public ? "Public" : "Private"}`);
+      }
+
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error.response?.data?.message || "Failed to change resume visibility");
+    }
+  }
   const handleShare = () => {
     const frontendUrl = window.location.href.split('/app/')[0];
     const resumeUrl = frontendUrl + '/view/' + resumeId;
@@ -157,9 +254,49 @@ const ResumeBuilder = () => {
   }
 
 
+
+  const saveResume = async () => {
+    try {
+      setSaving(true);
+
+      const updateResumeData = structuredClone(resumeData);
+      // Remove image from updateResumeData
+      if (typeof updateResumeData.personal_info.image === 'object') {
+        delete updateResumeData.personal_info.image;
+      }
+
+      const formData = new FormData();
+      formData.append('resumeData', JSON.stringify(updateResumeData));
+      formData.append('resumeId', resumeId);
+      removeBackground && formData.append('removeBackground', "yes");
+      typeof resumeData.personal_info.image === 'object' && formData.append('image', resumeData.personal_info.image);
+
+      const { data } = await API.put('api/resumes/update', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (data?.success) {
+        toast.success(data.message || "Resume updated successfully!");
+      }
+      setResumeData(data?.data.resume);
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error.response?.data?.message || "Failed to save changes");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen"><Loader /></div>;
+  }
+
   return <div>
     <div className="max-w-7xl mx-auto px-4 flex justify-between items-center mt-4 mb-6">
-      <Link to="/dashboard" className="flex items-center gap-2 hover:text-gray-900 transition-all duration-300 cursor-pointer w-fit bg-slate-100 p-2 rounded-full px-4 hover:bg-slate-200">
+      <Link to="/app" className="flex items-center gap-2 hover:text-gray-900 transition-all duration-300 cursor-pointer w-fit bg-slate-100 p-2 rounded-full px-4 hover:bg-slate-200">
         <ArrowLeft size={20} className="text-gray-500" />
         <span className="text-gray-500">Back to Dashboard</span>
       </Link>
@@ -177,14 +314,15 @@ const ResumeBuilder = () => {
 
         <button
           onClick={handleDownload}
-          className='flex items-center p-2.5 px-5 gap-2 text-xs bg-white text-gray-700 rounded-full border border-gray-200 hover:bg-gray-50 transition-all font-bold shadow-sm'
+          disabled={downloading}
+          className='flex items-center p-2.5 px-5 gap-2 text-xs bg-white text-gray-700 rounded-full border border-gray-200 hover:bg-gray-50 transition-all font-bold shadow-sm disabled:opacity-50'
         >
           <Download size={16} />
-          <span>Download</span>
+          <span>{downloading ? 'Generating...' : 'Download'}</span>
         </button>
 
         <button
-          onClick={() => setResumeData({ ...resumeData, public: !resumeData.public })}
+          onClick={changeResumeVisibility}
           className={`flex items-center p-2.5 px-5 gap-2 text-xs rounded-full transition-all shadow-sm font-bold border ${resumeData.public ? "bg-blue-600 text-white border-blue-700" : "bg-white text-gray-500 border-gray-200"}`}
         >
           {resumeData.public ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
@@ -226,16 +364,13 @@ const ResumeBuilder = () => {
                 {renderForm()}
               </div>
 
-              <div className="pt-4 border-t border-gray-100 flex justify-start">
+<div className="pt-4 border-t border-gray-100 flex justify-start">
                 <button
-                  onClick={() => {
-                    // In a real app, this would call an API. 
-                    // For now, we'll show a satisfying feedback.
-                    alert("Changes saved successfully!");
-                  }}
-                  className='px-8 py-3 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 transition-all text-sm font-bold border border-emerald-400 shadow-sm flex items-center gap-2'
+                  onClick={saveResume}
+                  disabled={saving}
+                  className='px-8 py-3 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 transition-all text-sm font-bold border border-emerald-400 shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed'
                 >
-                  <span>Save Changes</span>
+                  {saving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </div>

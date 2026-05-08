@@ -12,7 +12,7 @@ export const enhanceProfessionalSummary = async (req, res) => {
             return errorResponse(res, 400, "Missing Required fields");
         }
 
-        const res = await ai.chat.completions.create({
+        const aiResponse = await ai.chat.completions.create({
             model: process.env.GEMINI_MODEL,
             messages: [
                 {
@@ -24,7 +24,7 @@ export const enhanceProfessionalSummary = async (req, res) => {
                 },
             ],
         })
-        const enhancedContent = res.choices[0].message.content
+        const enhancedContent = aiResponse.choices[0].message.content
         return successResponse(res, 200, "Professional Summary Enhanced Successfully!", enhancedContent);
     } catch (error) {
         return errorResponse(res, 400, error.message, error);
@@ -39,7 +39,7 @@ export const enhanceJobDescription = async (req, res) => {
             return errorResponse(res, 400, "Missing Required fields");
         }
 
-        const res = await ai.chat.completions.create({
+        const aiResponse = await ai.chat.completions.create({
             model: process.env.GEMINI_MODEL,
             messages: [
                 {
@@ -52,8 +52,36 @@ export const enhanceJobDescription = async (req, res) => {
                 },
             ],
         })
-        const enhancedContent = res.choices[0].message.content
+        const enhancedContent = aiResponse.choices[0].message.content
         return successResponse(res, 200, "Job Description Enhanced successfull!", enhancedContent);
+    } catch (error) {
+        return errorResponse(res, 400, error.message, error);
+    }
+}
+
+// POST : /api/ai/enhance-project-desc
+export const enhanceProjectDescription = async (req, res) => {
+    try {
+        const { userContent } = req.body;
+        if (!userContent) {
+            return errorResponse(res, 400, "Missing Required fields");
+        }
+
+        const aiResponse = await ai.chat.completions.create({
+            model: process.env.GEMINI_MODEL,
+            messages: [
+                {
+                    role: "system",
+                    content: "You are an expert in resume writing. Your task is to enhance project descriptions for resumes. Keep descriptions crisp, concise, and impactful (2-3 sentences max). Highlight key technologies used, your role, and measurable outcomes. Make it ATS-friendly. Return only the enhanced text, nothing else."
+                },
+                {
+                    role: "user",
+                    content: userContent,
+                },
+            ],
+        })
+        const enhancedContent = aiResponse.choices[0].message.content
+        return successResponse(res, 200, "Project Description Enhanced!", enhancedContent);
     } catch (error) {
         return errorResponse(res, 400, error.message, error);
     }
@@ -98,10 +126,8 @@ export const uploadResume = async (req, res) => {
             ],
             project: [
                 {
-
-
                     name: { type: String },
-                    typer: { type: Boolean },
+                    type: { type: String },
                     description: { type: String },
                 }
             ],
@@ -112,13 +138,12 @@ export const uploadResume = async (req, res) => {
                     field: { type: String },
                     graduation_date: { type: String },
                     gpa: { type: String },
-
                 }
             ],
         }
         
         `
-        const res = await ai.chat.completions.create({
+        const aiResponse = await ai.chat.completions.create({
             model: process.env.GEMINI_MODEL,
             messages: [
                 {
@@ -132,7 +157,7 @@ export const uploadResume = async (req, res) => {
             ],
             response_format: { type: "json_object" }
         })
-        const extractedData = res.choices[0].message.content
+        const extractedData = aiResponse.choices[0].message.content
         const parsedData = JSON.parse(extractedData);
         const newResume = await Resume.create({ userId, title, ...parsedData })
         return successResponse(res, 200, "Resume Uploaded Successfully", { resumeId: newResume._id });

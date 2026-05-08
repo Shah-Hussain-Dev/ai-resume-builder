@@ -1,7 +1,12 @@
 import React from 'react'
-import { Plus, Trash2, Folder, Link as LinkIcon } from 'lucide-react'
+import { Plus, Trash2, Folder, Link as LinkIcon, Sparkles } from 'lucide-react'
+import { useAiEnhance } from '../../hooks/useAiEnhance'
+import toast from 'react-hot-toast'
 
 const ProjectsForm = ({ data = [], onChange }) => {
+  const { enhanceText } = useAiEnhance();
+  const [enhancingIndex, setEnhancingIndex] = React.useState(null);
+
   const addProject = () => {
     onChange([...data, {
       name: '',
@@ -22,6 +27,21 @@ const ProjectsForm = ({ data = [], onChange }) => {
     onChange(newData);
   }
 
+  const handleAiEnhance = async (index) => {
+    const description = data[index]?.description;
+    if (!description) {
+      toast.error('Please enter a project description first');
+      return;
+    }
+
+    setEnhancingIndex(index);
+    const enhanced = await enhanceText(description, 'project-description');
+    if (enhanced) {
+      handleChange(index, 'description', enhanced);
+    }
+    setEnhancingIndex(null);
+  }
+
   return (
     <div className='space-y-6 animate-in fade-in duration-500'>
       <div className='flex justify-between items-center'>
@@ -29,7 +49,7 @@ const ProjectsForm = ({ data = [], onChange }) => {
           <h3 className="text-xl font-bold text-gray-900">Projects</h3>
           <p className="text-sm text-gray-500 mt-1">Showcase your best work and personal projects</p>
         </div>
-        <button 
+        <button
           onClick={addProject}
           className='flex items-center gap-2 px-6 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-all text-sm font-bold border border-blue-100'
         >
@@ -40,7 +60,7 @@ const ProjectsForm = ({ data = [], onChange }) => {
       <div className='space-y-6'>
         {data.map((project, index) => (
           <div key={index} className='p-5 border border-gray-200 rounded-xl space-y-4 relative bg-white shadow-sm hover:shadow-md transition-shadow'>
-            <button 
+            <button
               onClick={() => removeProject(index)}
               className='absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors'
             >
@@ -52,8 +72,8 @@ const ProjectsForm = ({ data = [], onChange }) => {
                 <label className='text-xs font-semibold uppercase text-gray-500'>Project Name</label>
                 <div className='relative'>
                   <Folder size={16} className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
-                  <input 
-                    type='text' 
+                  <input
+                    type='text'
                     className='w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm'
                     placeholder='Project Name'
                     value={project.name}
@@ -63,8 +83,8 @@ const ProjectsForm = ({ data = [], onChange }) => {
               </div>
               <div className='space-y-2'>
                 <label className='text-xs font-semibold uppercase text-gray-500'>Project Type</label>
-                <input 
-                  type='text' 
+                <input
+                  type='text'
                   className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm'
                   placeholder='Full Stack App / Design'
                   value={project.type}
@@ -77,8 +97,8 @@ const ProjectsForm = ({ data = [], onChange }) => {
               <label className='text-xs font-semibold uppercase text-gray-500'>Project Link (Optional)</label>
               <div className='relative'>
                 <LinkIcon size={16} className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400' />
-                <input 
-                  type='text' 
+                <input
+                  type='text'
                   className='w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm'
                   placeholder='https://github.com/yourproject'
                   value={project.link || ''}
@@ -88,8 +108,18 @@ const ProjectsForm = ({ data = [], onChange }) => {
             </div>
 
             <div className='space-y-2'>
-              <label className='text-xs font-semibold uppercase text-gray-500'>Description</label>
-              <textarea 
+              <div className='flex justify-between items-center'>
+                <label className='text-xs font-semibold uppercase text-gray-500'>Description</label>
+                <button
+                  onClick={() => handleAiEnhance(index)}
+                  disabled={enhancingIndex === index}
+                  className='flex items-center gap-2 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all text-xs font-bold border border-purple-100 shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed'
+                >
+                  <Sparkles size={14} className={`${enhancingIndex === index ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-purple-600`} />
+                  <span>{enhancingIndex === index ? 'Enhancing...' : 'AI Enhance'}</span>
+                </button>
+              </div>
+              <textarea
                 className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm min-h-[100px] resize-none'
                 placeholder='Tell us about what you built and the technologies used...'
                 value={project.description}

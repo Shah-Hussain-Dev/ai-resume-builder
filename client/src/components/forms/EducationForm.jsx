@@ -1,5 +1,28 @@
 import React from 'react'
-import { Plus, Trash2, Calendar } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
+
+const parseDate = (dateStr) => {
+  if (!dateStr) return '';
+  if (dateStr.includes('/')) {
+    const [month, year] = dateStr.split('/');
+    return `${year}-${month.padStart(2, '0')}-01`;
+  }
+  if (dateStr.includes('-')) {
+    const parts = dateStr.split('-');
+    if (parts.length === 3) return dateStr;
+    return `${parts[0]}-${parts[1].padStart(2, '0')}-01`;
+  }
+  return '';
+}
+
+const formatDate = (dateStr) => {
+  if (!dateStr || !dateStr.includes('-')) return '';
+  const parts = dateStr.split('-');
+  if (parts.length >= 2) {
+    return `${parts[1]}/${parts[0]}`;
+  }
+  return '';
+}
 
 const EducationForm = ({ data = [], onChange }) => {
   const addEducation = () => {
@@ -21,6 +44,10 @@ const EducationForm = ({ data = [], onChange }) => {
     const newData = [...data];
     newData[index] = { ...newData[index], [field]: value };
     onChange(newData);
+  }
+
+  const handleDateChange = (index, field, value) => {
+    handleChange(index, field, formatDate(value));
   }
 
   return (
@@ -52,6 +79,8 @@ const EducationForm = ({ data = [], onChange }) => {
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              <div>
+                <label className='text-xs font-medium text-gray-500 mb-1 block'>Institution</label>
                 <input 
                 type='text' 
                 className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
@@ -59,6 +88,9 @@ const EducationForm = ({ data = [], onChange }) => {
                 value={edu.institution}
                 onChange={(e) => handleChange(index, 'institution', e.target.value)}
                 />
+              </div>
+              <div>
+                <label className='text-xs font-medium text-gray-500 mb-1 block'>Degree</label>
                 <input 
                 type='text' 
                 className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
@@ -66,36 +98,40 @@ const EducationForm = ({ data = [], onChange }) => {
                 value={edu.degree}
                 onChange={(e) => handleChange(index, 'degree', e.target.value)}
                 />
+              </div>
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <input 
-                type='text' 
+              <div>
+                <label className='text-xs font-medium text-gray-500 mb-1 block'>Field of Study</label>
+                <input
+                type='text'
                 className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
                 placeholder='Field of Study'
                 value={edu.field}
                 onChange={(e) => handleChange(index, 'field', e.target.value)}
                 />
-                <div className='relative'>
-                    <input 
-                    type='month' 
-                    className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm cursor-pointer transition-all pr-12'
-                    value={edu.graduation_date}
-                    onChange={(e) => handleChange(index, 'graduation_date', e.target.value)}
-                    placeholder='----------, ----'
-                    />
-                    <Calendar size={18} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none' />
-                </div>
+              </div>
+              <div>
+                <label className='text-xs font-medium text-gray-500 mb-1 block'>Graduation Date</label>
+                <input
+                type='date'
+                className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
+                value={parseDate(edu.graduation_date)}
+                onChange={(e) => handleDateChange(index, 'graduation_date', e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className='w-full md:w-1/2 pr-2'>
-                <input 
-                  type='text' 
-                  className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
-                  placeholder='GPA (optional)'
-                  value={edu.gpa}
-                  onChange={(e) => handleChange(index, 'gpa', e.target.value)}
-                />
+            <div className='w-full md:w-1/2'>
+              <label className='text-xs font-medium text-gray-500 mb-1 block'>GPA (optional)</label>
+              <input 
+                type='text' 
+                className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
+                placeholder='GPA (optional)'
+                value={edu.gpa}
+                onChange={(e) => handleChange(index, 'gpa', e.target.value)}
+              />
             </div>
           </div>
         ))}

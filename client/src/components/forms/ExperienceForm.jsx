@@ -1,7 +1,35 @@
 import React from 'react'
-import { Plus, Trash2, Calendar, Sparkles } from 'lucide-react'
+import { Plus, Trash2, Sparkles } from 'lucide-react'
+import { useAiEnhance } from '../../hooks/useAiEnhance'
+import toast from 'react-hot-toast'
+
+const parseDate = (dateStr) => {
+  if (!dateStr) return '';
+  if (dateStr.includes('/')) {
+    const [month, year] = dateStr.split('/');
+    return `${year}-${month.padStart(2, '0')}-01`;
+  }
+  if (dateStr.includes('-') && dateStr.length >= 7) {
+    const parts = dateStr.split('-');
+    if (parts.length === 3) return dateStr;
+    return `${parts[0]}-${parts[1].padStart(2, '0')}-01`;
+  }
+  return '';
+}
+
+const formatDate = (dateStr) => {
+  if (!dateStr || !dateStr.includes('-')) return '';
+  const parts = dateStr.split('-');
+  if (parts.length >= 2) {
+    return `${parts[1]}/${parts[0]}`;
+  }
+  return '';
+}
 
 const ExperienceForm = ({ data = [], onChange }) => {
+  const { enhanceText } = useAiEnhance();
+  const [enhancingIndex, setEnhancingIndex] = React.useState(null);
+  
   const addExperience = () => {
     onChange([...data, {
       company: '',
@@ -22,6 +50,29 @@ const ExperienceForm = ({ data = [], onChange }) => {
     const newData = [...data];
     newData[index] = { ...newData[index], [field]: value };
     onChange(newData);
+  }
+
+  const handleDateChange = (index, field, value) => {
+    handleChange(index, field, formatDate(value));
+  }
+
+  const handleAiEnhance = async (index) => {
+    const description = data[index]?.description;
+    if (!description) {
+      toast.error('Please enter a job description first');
+      return;
+    }
+
+    const enhanced = await enhanceText(description, 'job-description');
+    if (enhanced) {
+      handleChange(index, 'description', enhanced);
+    }
+  }
+
+  const handleAiEnhanceWithIndex = async (index) => {
+    setEnhancingIndex(index);
+    await handleAiEnhance(index);
+    setEnhancingIndex(null);
   }
 
   return (
@@ -53,42 +104,48 @@ const ExperienceForm = ({ data = [], onChange }) => {
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <input 
-                type='text' 
-                className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
-                placeholder='Example Technologies.'
-                value={exp.company}
-                onChange={(e) => handleChange(index, 'company', e.target.value)}
-                />
-                <input 
-                type='text' 
-                className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
-                placeholder='Full Stack Developer'
-                value={exp.position}
-                onChange={(e) => handleChange(index, 'position', e.target.value)}
-                />
+                <div>
+                  <label className='text-xs font-medium text-gray-500 mb-1 block'>Company</label>
+                  <input 
+                  type='text' 
+                  className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
+                  placeholder='Company Name'
+                  value={exp.company}
+                  onChange={(e) => handleChange(index, 'company', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className='text-xs font-medium text-gray-500 mb-1 block'>Position</label>
+                  <input 
+                  type='text' 
+                  className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
+                  placeholder='Job Title'
+                  value={exp.position}
+                  onChange={(e) => handleChange(index, 'position', e.target.value)}
+                  />
+                </div>
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                <div className='relative'>
-                    <input 
-                    type='month' 
-                    className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm cursor-pointer transition-all pr-12'
-                    value={exp.start_date}
-                    onChange={(e) => handleChange(index, 'start_date', e.target.value)}
-                    />
-                    <Calendar size={18} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none' />
+                <div>
+                  <label className='text-xs font-medium text-gray-500 mb-1 block'>Start Date</label>
+                  <input
+                  type='date'
+                  className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all'
+                  value={parseDate(exp.start_date)}
+                  onChange={(e) => handleDateChange(index, 'start_date', e.target.value)}
+                  />
                 </div>
-                <div className='relative'>
-                    <input 
-                    type='month' 
-                    className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm disabled:bg-gray-50 disabled:text-gray-300 transition-all pr-12'
-                    disabled={exp.is_current}
-                    value={exp.is_current ? '' : exp.end_date}
-                    onChange={(e) => handleChange(index, 'end_date', e.target.value)}
-                    placeholder='----------, ----'
-                    />
-                     <Calendar size={18} className='absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none' />
+                <div>
+                  <label className='text-xs font-medium text-gray-500 mb-1 block'>End Date</label>
+                  <input
+                  type='date'
+                  className='w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-300 focus:ring-4 focus:ring-blue-50 outline-none text-sm transition-all disabled:bg-gray-50'
+                  disabled={exp.is_current}
+                  placeholder={exp.is_current ? 'Present' : ''}
+                  value={exp.is_current ? '' : parseDate(exp.end_date)}
+                  onChange={(e) => handleDateChange(index, 'end_date', e.target.value)}
+                  />
                 </div>
             </div>
 
@@ -106,12 +163,16 @@ const ExperienceForm = ({ data = [], onChange }) => {
             <div className='space-y-2'>
               <div className='flex justify-between items-center'>
                 <label className='text-sm font-bold text-gray-700 font-medium'>Job Description</label>
-                <button className='flex items-center gap-2 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all text-xs font-bold border border-purple-100 shadow-sm group'>
-                  <Sparkles size={14} className='group-hover:scale-110 transition-transform text-purple-600' />
-                  <span>Enhance with AI</span>
+                <button
+                  onClick={() => handleAiEnhanceWithIndex(index)}
+                  disabled={enhancingIndex === index}
+                  className='flex items-center gap-2 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all text-xs font-bold border border-purple-100 shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed'
+                >
+                  <Sparkles size={14} className={`${enhancingIndex === index ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-purple-600`} />
+                  <span>{enhancingIndex === index ? 'Enhancing...' : 'Enhance with AI'}</span>
                 </button>
               </div>
-              <textarea 
+              <textarea
                 className='w-full p-5 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-300 focus:ring-4 focus:ring-blue-50 transition-all min-h-[140px] resize-none text-sm text-gray-700'
                 placeholder='Describe your achievements and responsibilities...'
                 value={exp.description}

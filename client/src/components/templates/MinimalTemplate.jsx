@@ -1,8 +1,17 @@
 
 const MinimalTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
-        if (!dateStr) return "";
-        const [year, month] = dateStr.split("-");
+        if (!dateStr || dateStr === "Present") return "";
+        let year, month;
+
+        if (dateStr.includes("/")) {
+            [month, year] = dateStr.split("/");
+        } else if (dateStr.includes("-")) {
+            [year, month] = dateStr.split("-");
+        } else {
+            return dateStr;
+        }
+
         return new Date(year, month - 1).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short"

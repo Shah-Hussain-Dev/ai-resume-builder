@@ -1,6 +1,8 @@
 import 'dotenv/config';
 
 import dns from "node:dns/promises";
+import cors from "cors";
+
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 import express from "express";
@@ -11,6 +13,11 @@ import aiRouter from './routes/aiRoutes.js';
 const app = express();
 // Connect database
 
+app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 await connectDB();
 app.get("/", (req, res) => {
     res.send("API running...");

@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import API from "../config/api";
+import { useDispatch } from "react-redux";
+import { login } from "../app/features/authSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [state, setState] = React.useState("login");
-
+  const dispatch = useDispatch();
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -15,8 +19,27 @@ const Login = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await API.post(`api/users/${state}`, formData);
+      if (data.success && data.data?.token) {
+        localStorage.setItem("token", data.data.token);
+        toast.success(data.message);
+        dispatch(login({ user: data.data?.user, token: data.data.token }));
+        window.location.href = "/app";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      const errorMsg = error.response?.data?.message || "Something went wrong";
+      if (error.response?.status === 409) {
+        toast.error("Email already registered. Please login instead.");
+      } else if (error.response?.status === 401) {
+        toast.error("Invalid email or password");
+      } else {
+        toast.error(errorMsg);
+      }
+    }
   };
 
   return (

@@ -12,10 +12,15 @@ import React, { useEffect, useState } from "react";
 import { dummyResumeData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../components/dashboard/ConfirmModal";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import API from "../config/api";
+import pdfToText from "react-pdftotext"
 
 const Dashboard = () => {
   const [allResumes, setAllResumes] = useState([]);
   const navigate = useNavigate();
+  const { user, token } = useSelector((state) => state.auth);
   const [showCreateResumeModal, setShowCreateResumeModal] = useState(false);
   const [showUploadResumeModal, setShowUploadResumeModal] = useState(false);
   const [resumeTitle, setResumeTitle] = useState("");
@@ -25,7 +30,16 @@ const Dashboard = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const loadAllResumes = async () => {
-    setAllResumes(dummyResumeData);
+    try {
+      const { data } = await API.get("api/users/resumes", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAllResumes(data.data || []);
+    } catch (error) {
+      console.log("error", error); toast.error("Failed to load resumes");
+    }
   };
   useEffect(() => {
     loadAllResumes();
@@ -47,20 +61,66 @@ const Dashboard = () => {
     try {
       e.preventDefault();
       setLoading(true);
-      setShowCreateResumeModal(false);
-      navigate(`/app/builder/12323`);
+
+      if (editId) {
+        const { data } = await API.put(`api/resumes/update-title/${editId}`, { title: resumeTitle }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (data?.success) {
+          setAllResumes((prev) => prev.map((resume) => resume._id === editId ? data.data.resume : resume));
+          setResumeTitle("");
+          setShowCreateResumeModal(false);
+          setEditId("");
+          toast.success("Resume title updated successfully");
+        }
+      } else {
+        const { data } = await API.post("api/resumes/create", { title: resumeTitle }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (data?.success) {
+          setAllResumes((prev) => [...prev, data.data]);
+          setResumeTitle("");
+          setShowCreateResumeModal(false);
+          toast.success("Resume created successfully");
+          navigate(`/app/builder/${data?.data?.resume?._id}`);
+        }
+      }
+
     } catch (error) {
       console.log("error", error);
+      toast.error(error.response?.data?.message || "Failed to save resume");
+    } finally {
+      setLoading(false);
     }
   };
   const uploadResume = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
+      const resumeText = await pdfToText(resume);
+
+      const { data } = await API.post("api/ai/upload-resume", { title: resumeTitle, resumeText }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setResumeTitle("");
+      setResume(null);
       setShowUploadResumeModal(false);
-      navigate(`/app/builder/12323`);
+      setLoading(false);
+      toast.success("Resume uploaded successfully");
+      navigate(`/app/builder/${data?.data?.resumeId}`);
     } catch (error) {
       console.log("error", error);
+      toast.error(error.response?.data?.message || "Failed to upload resume");
+    } finally {
+      setLoading(false);
     }
   };
   const handleClose = () => {
@@ -85,16 +145,27 @@ const Dashboard = () => {
   };
 
   const deleteResume = (id) => {
+
     setDeletingId(id);
     setShowConfirmModal(true);
   };
 
-  const handleConfirmDelete = () => {
-    if (deletingId) {
-      setAllResumes((prev) => prev?.filter((resume) => resume._id !== deletingId));
-      setLoading(true);
-      // Simulate API call loading state reset
-      setTimeout(() => setLoading(false), 500);
+  const handleConfirmDelete = async () => {
+    try {
+      if (deletingId) {
+        await API.delete(`api/resumes/delete/${deletingId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setAllResumes((prev) => prev.filter((resume) => resume._id !== deletingId));
+        setShowConfirmModal(false);
+        toast.success("Resume deleted successfully");
+      }
+
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error.response?.data?.message || "Failed to delete resume");
     }
   };
 
@@ -204,8 +275,8 @@ const Dashboard = () => {
                 onChange={(e) => setResumeTitle(e.target.value)}
                 className="w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 rounded border border-slate-300"
               />
-              <button className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors">
-                {editId ? "Edit Resume" : "Create Resume"}
+              <button disabled={loading} className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading ? "Creating..." : (editId ? "Edit Resume" : "Create Resume")}
               </button>
               <XIcon
                 className="absolute top-2 right-2 cursor-pointer transition-colors text-slate-400 hover:text-slate-600"
@@ -265,8 +336,8 @@ const Dashboard = () => {
                   className="hidden"
                 />
               </div>
-              <button className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors">
-                Upload Resume
+              <button disabled={loading} className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading ? "Uploading..." : "Upload Resume"}
               </button>
               <XIcon
                 className="absolute top-2 right-2 cursor-pointer transition-colors text-slate-400 hover:text-slate-600"

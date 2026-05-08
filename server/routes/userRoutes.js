@@ -9,8 +9,8 @@ const userRouter = express.Router();
 
 userRouter.post("/register", register)
 userRouter.post("/login", login)
-userRouter.post("/data", protect, getProfile)
-userRouter.post("/resumes", protect, getUserResume)
+userRouter.get("/data", protect, getProfile)
+userRouter.get("/resumes", protect, getUserResume)
 
 
 

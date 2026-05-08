@@ -2,16 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ASSETS } from "../../assets";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../app/features/authSlice";
 const Navbar = () => {
   const navigate = useNavigate();
-  const user = {
-    name: "John Doe",
-  };
-
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
+    dispatch(logout());
   };
   return (
     <div className="shadow bg-white">
