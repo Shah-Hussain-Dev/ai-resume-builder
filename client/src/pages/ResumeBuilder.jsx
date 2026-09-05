@@ -136,7 +136,7 @@ const ResumeBuilder = () => {
             paper_padding: "normal",
           },
         });
-        document.title = resume.title ? `${resume.title} - AI Resume Builder` : "Resume Builder";
+        document.title = resume.title ? `${resume.title} - BoltCV AI` : "BoltCV AI - Resume Builder";
       }
     } catch (error) {
       console.log("error", error);

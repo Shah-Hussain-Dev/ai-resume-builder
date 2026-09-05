@@ -22,17 +22,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/app" className="flex items-center gap-3 group">
-          <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
-            </div>
-          </div>
+          <img
+            src="/logo.jpg"
+            alt="BoltCV AI Logo"
+            className="size-9 rounded-xl object-cover shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform"
+          />
           <div className="flex flex-col">
-            <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
-              AI Resume
+            <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white flex items-center gap-1">
+              BoltCV <span className="text-amber-500 text-xs px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20">AI</span>
             </span>
-            <span className="text-[10px] text-blue-600 dark:text-blue-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
-              Dashboard
+            <span className="text-[10px] text-blue-600 dark:text-blue-400 font-mono tracking-widest uppercase -mt-0.5 font-semibold">
+              Instant Builder
             </span>
           </div>
         </Link>

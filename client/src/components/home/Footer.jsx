@@ -22,12 +22,8 @@ export default function Footer() {
         {/* Brand Info */}
         <div className="lg:col-span-4 space-y-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/20">
-              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
-              </div>
-            </div>
-            <span className="font-bold text-lg text-slate-900 dark:text-white">AI Resume Builder</span>
+            <img src="/logo.jpg" alt="BoltCV AI Logo" className="size-9 rounded-xl object-cover shadow-md shadow-amber-500/20" />
+            <span className="font-extrabold text-lg text-slate-900 dark:text-white">BoltCV AI</span>
           </Link>
           <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
             Empowering job seekers worldwide to create ATS-optimized, professional resumes powered by AI. Land your next role with confidence.
@@ -139,7 +135,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
-        <p>© {new Date().getFullYear()} AI Resume Builder. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} BoltCV AI. All rights reserved.</p>
         <div className="flex items-center gap-6">
           <Link to="/privacy-policy" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
             Privacy Policy

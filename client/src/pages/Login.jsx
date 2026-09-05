@@ -107,9 +107,9 @@ const Login = () => {
           {/* LEFT SIDE: Visual Showcase Panel (Desktop) */}
           <div className="hidden lg:flex lg:col-span-6 flex-col justify-center pr-8 space-y-8">
             {/* Brand Title Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/50 text-blue-700 dark:text-blue-300 text-xs font-semibold w-fit shadow-xs">
-              <Sparkles className="size-3.5 text-blue-600 dark:text-blue-400" />
-              <span>Next-Gen AI Resume Builder</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold w-fit shadow-xs">
+              <Sparkles className="size-3.5 text-amber-500" />
+              <span>Next-Gen BoltCV AI</span>
             </div>
 
             <div>
@@ -343,7 +343,7 @@ const Login = () => {
 
       {/* Simple Footer Bar */}
       <footer className="relative z-20 w-full py-4 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200/60 dark:border-white/5">
-        &copy; {new Date().getFullYear()} AI Resume Builder. All rights reserved.
+        &copy; {new Date().getFullYear()} BoltCV AI. All rights reserved.
       </footer>
     </div>
   );

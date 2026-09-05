@@ -120,17 +120,17 @@ export default function Hero() {
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#090D16]/80 backdrop-blur-xl border-b border-slate-200 dark:border-blue-500/15 px-4 sm:px-8 lg:px-16 py-4 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
-              </div>
-            </div>
+            <img
+              src="/logo.jpg"
+              alt="BoltCV AI Logo"
+              className="size-10 rounded-xl object-cover shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-600 dark:from-white dark:via-blue-200 dark:to-blue-400 bg-clip-text text-transparent">
-                AI Resume
+              <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+                BoltCV <span className="text-amber-500 text-xs px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 font-bold">AI</span>
               </span>
               <span className="text-[10px] text-blue-600 dark:text-blue-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
-                Builder Pro
+                Instant Resume Builder
               </span>
             </div>
           </Link>
@@ -200,9 +200,9 @@ export default function Hero() {
       {menuOpen && (
         <div className="fixed inset-0 z-[100] bg-slate-900/95 dark:bg-slate-950/95 backdrop-blur-2xl flex flex-col p-6 md:hidden text-white">
           <div className="flex items-center justify-between pb-6 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <Sparkles className="size-6 text-blue-400" />
-              <span className="font-bold text-lg text-white">AI Resume Builder</span>
+            <div className="flex items-center gap-2.5">
+              <img src="/logo.jpg" alt="BoltCV AI Logo" className="size-8 rounded-lg object-cover" />
+              <span className="font-extrabold text-lg text-white">BoltCV AI</span>
             </div>
             <button
               onClick={() => setMenuOpen(false)}
