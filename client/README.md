@@ -1,16 +1,89 @@
-# React + Vite
+# ai-resume-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern, responsive frontend application for the AI Resume Builder platform. Built with React, Vite, Tailwind CSS, and Lucide icons.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Intuitive Resume Builder**: Step-by-step form to manage personal info, education, work experience, projects, skills, and certifications.
+- **Multiple Professional Templates**:
+  - Classic Template
+  - Modern Template
+  - Minimal / Technical Template
+  - Executive Template
+- **Dynamic Customization**: Live color picker, accent color customization, and instant real-time preview.
+- **AI-Powered Assistance**:
+  - Enhance professional summaries
+  - Polish job descriptions with quantified impact
+  - Refine project bullet points
+  - PDF resume parsing
+- **Dark / Light Mode**: Theme toggle with persistent preference.
+- **Export & Print**: One-click PDF download / browser print.
+- **Authentication Flow**: Login, Registration, protected routes with JWT.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 19 + Vite
+- **Styling**: Tailwind CSS
+- **Routing**: React Router DOM
+- **Icons**: Lucide React
+- **HTTP Client**: Axios
+- **Notifications**: React Hot Toast
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 18.x
+- Backend API running (see [ai-resume-builder-backend](https://github.com/Shah-Hussain-Dev/ai-resume-builder-backend))
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Setup environment variables
+cp .env.example .env
+```
+
+### Running Locally
+
+```bash
+npm run dev
+```
+
+The app will start at `http://localhost:5173`.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+---
+
+## Environment Variables
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_BASE_URL` | Base URL of the backend API service | `http://localhost:8000` |
+
+---
+
+## Deployment (Netlify / Vercel)
+
+### Netlify:
+- **Build command**: `npm run build`
+- **Publish directory**: `dist`
+- **Environment variables**: Add `VITE_BASE_URL` with your deployed backend URL (e.g. `https://your-backend.onrender.com`).
+- Direct URL refreshes are handled by `public/_redirects`.
+
+---
+
+## License
+
+ISC

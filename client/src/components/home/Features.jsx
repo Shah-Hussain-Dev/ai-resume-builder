@@ -1,124 +1,135 @@
-import { useState } from "react";
-import Badge from "./Badge";
-import Title from "./Title";
+import React, { useState } from "react";
+import {
+  Sparkles,
+  Bot,
+  ShieldCheck,
+  FileCheck,
+  Zap,
+  Download,
+  Layers,
+  FileText
+} from "lucide-react";
 
-const Features = () => {
-  const [isHover, setIsHover] = useState(false);
+export default function Features() {
+  const [activeFeature, setActiveFeature] = useState(0);
+
+  const featureList = [
+    {
+      id: 0,
+      icon: Sparkles,
+      title: "AI Smart Bullet Generator",
+      shortDesc: "Transform basic duty notes into quantified achievement statements.",
+      fullDesc:
+        "Input your role and responsibilities. Our AI engine generates action-oriented bullet points loaded with metrics, percentages, and business impact.",
+      tag: "GPT-4 Powered",
+      color: "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-500/20 dark:border-indigo-500/40 dark:text-indigo-400"
+    },
+    {
+      id: 1,
+      icon: ShieldCheck,
+      title: "ATS Keyword Optimizer & Checker",
+      shortDesc: "Never get filtered out by Taleo, Workday, or Greenhouse.",
+      fullDesc:
+        "Pass target job descriptions into our scanner to detect missing skills and formatting errors. Get an instant score and 1-click recommendations.",
+      tag: "Realtime Score",
+      color: "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-500/20 dark:border-purple-500/40 dark:text-purple-400"
+    },
+    {
+      id: 2,
+      icon: Download,
+      title: "1-Click PDF Resume Export",
+      shortDesc: "Download high-resolution, pixel-perfect PDFs ready for applications.",
+      fullDesc:
+        "Generates clean ATS-standard PDF files formatted with exact margin spacing, embedded vectors, and no page-break bugs.",
+      tag: "Vector PDF",
+      color: "bg-violet-50 text-violet-600 border-violet-200 dark:bg-violet-500/20 dark:border-violet-500/40 dark:text-violet-400"
+    },
+    {
+      id: 3,
+      icon: FileText,
+      title: "Matching AI Cover Letter Writer",
+      shortDesc: "Generate targeted cover letters tailored to each job application.",
+      fullDesc:
+        "Create personalized, persuasive cover letters that complement your resume experience and align with company values in 30 seconds.",
+      tag: "Tailored Copy",
+      color: "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-500/20 dark:border-amber-500/40 dark:text-amber-400"
+    },
+    {
+      id: 4,
+      icon: FileCheck,
+      title: "PDF & DOCX Resume Parser",
+      shortDesc: "Import existing resumes without retyping your work history.",
+      fullDesc:
+        "Upload your old PDF or Word document. Our parser extracts dates, titles, descriptions, and education into editable fields seamlessly.",
+      tag: "Smart Extraction",
+      color: "bg-cyan-50 text-cyan-600 border-cyan-200 dark:bg-cyan-500/20 dark:border-cyan-500/40 dark:text-cyan-400"
+    },
+    {
+      id: 5,
+      icon: Layers,
+      title: "Pro Designer Templates & Layouts",
+      shortDesc: "Switch between modern, executive, and minimal ATS templates.",
+      fullDesc:
+        "Choose from recruiter-approved template layouts designed to highlight your seniority and key qualifications effortlessly.",
+      tag: "Multi-Layout",
+      color: "bg-teal-50 text-teal-600 border-teal-200 dark:bg-teal-500/20 dark:border-teal-500/40 dark:text-teal-400"
+    }
+  ];
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Badge />
-      <Title
-        title="Build your resume in minutes"
-        description="AI-powered resume builder that helps you create a professional resume in minutes."
-      />
-      <div
-        className="flex flex-col md:flex-row items-center justify-center my-10 scroll-mt-12"
-        id="features"
-      >
-        <img
-          className="max-w-2xl w-full xl:-ml-32"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png"
-          alt=""
-        />
-        <div
-          className="px-4 md:px-0"
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-        >
-          <div
-            className={
-              "flex items-center justify-center gap-6 max-w-md group cursor-pointer"
-            }
-          >
-            <div
-              className={`p-6 group-hover:bg-violet-100 border border-transparent group-hover:border-violet-300  flex gap-4 rounded-xl transition-colors ${!isHover ? "border-violet-300 bg-violet-100" : ""}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-6 stroke-violet-600"
+    <section id="features" className="py-24 bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white relative scroll-mt-20 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
+            Engineered for Job Search Success
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mt-4 tracking-tight">
+            Powerful AI Features Built to Get You Hired
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg mt-4">
+            Everything you need to create ATS-compliant, recruiter-approved resumes in minutes.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featureList.map((feat) => {
+            const Icon = feat.icon;
+            const isSelected = activeFeature === feat.id;
+            return (
+              <div
+                key={feat.id}
+                onClick={() => setActiveFeature(feat.id)}
+                className={`p-6 sm:p-8 rounded-3xl glass-card glass-card-hover border cursor-pointer relative overflow-hidden transition-all duration-300 ${
+                  isSelected
+                    ? "border-indigo-500/50 bg-white dark:bg-slate-900/90 shadow-xl"
+                    : "border-slate-200 dark:border-white/10"
+                }`}
               >
-                <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
-                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Real-Time Analytics
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  Get instant insights into your finances with live dashboards.
+                <div className={`size-12 rounded-2xl ${feat.color} flex items-center justify-center mb-6 border`}>
+                  <Icon className="size-6" />
+                </div>
+
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white tracking-tight">
+                    {feat.title}
+                  </h3>
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                    {feat.tag}
+                  </span>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium mb-3">
+                  {feat.shortDesc}
+                </p>
+
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-3 border-t border-slate-200 dark:border-white/10">
+                  {feat.fullDesc}
                 </p>
               </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-            <div className="p-6 group-hover:bg-green-100 border border-transparent group-hover:border-green-300 flex gap-4 rounded-xl transition-colors">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="size-6 stroke-green-600"
-              >
-                <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Bank-Grade Security
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  End-to-end encryption, 2FA, compliance with GDPR standards.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-            <div className="p-6 group-hover:bg-orange-100 border border-transparent group-hover:border-orange-300 flex gap-4 rounded-xl transition-colors">
-              <svg
-                className="size-6 stroke-orange-600"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 15V3" />
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <path d="m7 10 5 5 5-5" />
-              </svg>
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
-                  Customizable Reports
-                </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
-                  Export professional, audit-ready financial reports for tax or
-                  internal review.
-                </p>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Features;
+}

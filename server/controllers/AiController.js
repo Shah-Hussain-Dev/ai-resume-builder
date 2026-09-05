@@ -1,91 +1,75 @@
 // enhancing a resume's professional summary
 
-import ai from "../configs/ai.js";
+import { generateGeminiContent, getAiClient } from "../configs/ai.js";
 import Resume from "../models/resume.js";
-import { errorResponse, successResponse } from "../utils/responseHandler.js"
+import { errorResponse, successResponse } from "../utils/responseHandler.js";
+
+const getAiResponseText = async (systemPrompt, userPrompt, jsonMode = false) => {
+    return await generateGeminiContent(systemPrompt, userPrompt, jsonMode);
+};
 
 // POST: /api/ai/enhance-pro-summary
 export const enhanceProfessionalSummary = async (req, res) => {
     try {
         const { userContent } = req.body;
         if (!userContent) {
-            return errorResponse(res, 400, "Missing Required fields");
+            return errorResponse(res, 400, "Missing required userContent field");
         }
 
-        const aiResponse = await ai.chat.completions.create({
-            model: process.env.GEMINI_MODEL,
-            messages: [
-                {
-                    role: "system", content: "You are an expert in resume writing. Your task is to enhance the professional summary of a resume.The summary should be 1-2 sentences also highlighting key skills, experience, and career objectives.Make it compelling and ATS- friendly.and only return text no options or anything else."
-                },
-                {
-                    role: "user",
-                    content: userContent,
-                },
-            ],
-        })
-        const enhancedContent = aiResponse.choices[0].message.content
+        if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_API_KEY.trim()) {
+            return errorResponse(res, 400, "GEMINI_API_KEY is missing in server/.env file");
+        }
+
+        const systemPrompt = "You are an expert in resume writing. Your task is to enhance the professional summary of a resume. The summary should be 1-2 sentences highlighting key skills, experience, and career objectives. Make it compelling and ATS-friendly. Return only the enhanced text, nothing else.";
+        const enhancedContent = await getAiResponseText(systemPrompt, userContent, false);
         return successResponse(res, 200, "Professional Summary Enhanced Successfully!", enhancedContent);
     } catch (error) {
-        return errorResponse(res, 400, error.message, error);
+        console.error("Enhance Summary Error:", error);
+        return errorResponse(res, 400, error.message || "AI Enhancement failed", error);
     }
-}
+};
 
 // POST : /api/ai/enhance-job-desc
 export const enhanceJobDescription = async (req, res) => {
     try {
         const { userContent } = req.body;
         if (!userContent) {
-            return errorResponse(res, 400, "Missing Required fields");
+            return errorResponse(res, 400, "Missing required userContent field");
         }
 
-        const aiResponse = await ai.chat.completions.create({
-            model: process.env.GEMINI_MODEL,
-            messages: [
-                {
-                    role: "system",
-                    content: "You are an expert in resume writing. Your task is to enhance the job description of a resume.The job description should be only in 1-2 sentence also highlighting key responsibilities and achievements.Use action verbs and quantifiable results where possible.Make it ATS- friendly.and only return text no options or anything else."
-                },
-                {
-                    role: "user",
-                    content: userContent,
-                },
-            ],
-        })
-        const enhancedContent = aiResponse.choices[0].message.content
-        return successResponse(res, 200, "Job Description Enhanced successfull!", enhancedContent);
+        if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_API_KEY.trim()) {
+            return errorResponse(res, 400, "GEMINI_API_KEY is missing in server/.env file");
+        }
+
+        const systemPrompt = "You are an expert in resume writing. Your task is to enhance the job description of a resume. The job description should be 1-2 sentences highlighting key responsibilities and achievements. Use action verbs and quantifiable results. Make it ATS-friendly. Return only the text.";
+        const enhancedContent = await getAiResponseText(systemPrompt, userContent, false);
+        return successResponse(res, 200, "Job Description Enhanced successfully!", enhancedContent);
     } catch (error) {
-        return errorResponse(res, 400, error.message, error);
+        console.error("Enhance Job Error:", error);
+        return errorResponse(res, 400, error.message || "AI Enhancement failed", error);
     }
-}
+};
 
 // POST : /api/ai/enhance-project-desc
 export const enhanceProjectDescription = async (req, res) => {
     try {
         const { userContent } = req.body;
         if (!userContent) {
-            return errorResponse(res, 400, "Missing Required fields");
+            return errorResponse(res, 400, "Missing required userContent field");
         }
 
-        const aiResponse = await ai.chat.completions.create({
-            model: process.env.GEMINI_MODEL,
-            messages: [
-                {
-                    role: "system",
-                    content: "You are an expert in resume writing. Your task is to enhance project descriptions for resumes. Keep descriptions crisp, concise, and impactful (2-3 sentences max). Highlight key technologies used, your role, and measurable outcomes. Make it ATS-friendly. Return only the enhanced text, nothing else."
-                },
-                {
-                    role: "user",
-                    content: userContent,
-                },
-            ],
-        })
-        const enhancedContent = aiResponse.choices[0].message.content
+        if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_API_KEY.trim()) {
+            return errorResponse(res, 400, "GEMINI_API_KEY is missing in server/.env file");
+        }
+
+        const systemPrompt = "You are an expert in resume writing. Your task is to enhance project descriptions for resumes. Keep descriptions crisp, concise, and impactful (2-3 sentences max). Highlight key technologies used, your role, and measurable outcomes. Make it ATS-friendly. Return only the enhanced text.";
+        const enhancedContent = await getAiResponseText(systemPrompt, userContent, false);
         return successResponse(res, 200, "Project Description Enhanced!", enhancedContent);
     } catch (error) {
-        return errorResponse(res, 400, error.message, error);
+        console.error("Enhance Project Error:", error);
+        return errorResponse(res, 400, error.message || "AI Enhancement failed", error);
     }
-}
+};
 
 // POST: /api/ai/upload-resume
 export const uploadResume = async (req, res) => {
@@ -94,74 +78,77 @@ export const uploadResume = async (req, res) => {
         const userId = req.userId;
 
         if (!resumeText) {
-            return errorResponse(res, 400, "Missing Required fields");
+            return errorResponse(res, 400, "Missing required resumeText field");
         }
 
-        const systemPrompt = "You are an expert Ai Agent to exact data from resume."
-        const userPrompt = `extract data from this resume : ${resumeText}
-        
-        Provide data in the following JSON format with no additional text before or after:
-        {
-            professional_summary: { type: String, default: '' },
-            skills: [{ type: String }],
-            personal_info: {
-                image: { type: String, default: '' },
-                full_name: { type: String, default: '' },
-                profession: { type: String, default: '' },
-                email: { type: String, default: '' },
-                phone: { type: String, default: '' },
-                location: { type: String, default: '' },
-                linkedin: { type: String, default: '' },
-                website: { type: String, default: '' }
-            },
-            experience: [
-                {
-                    company: { type: String },
-                    position: { type: String },
-                    start_date: { type: String },
-                    end_date: { type: String },
-                    description: { type: String },
-                    is_current: { type: Boolean },
-                }
-            ],
-            project: [
-                {
-                    name: { type: String },
-                    type: { type: String },
-                    description: { type: String },
-                }
-            ],
-            education: [
-                {
-                    institution: { type: String },
-                    degree: { type: String },
-                    field: { type: String },
-                    graduation_date: { type: String },
-                    gpa: { type: String },
-                }
-            ],
+        if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_API_KEY.trim()) {
+            return errorResponse(res, 400, "GEMINI_API_KEY is missing in server/.env file");
         }
-        
-        `
-        const aiResponse = await ai.chat.completions.create({
-            model: process.env.GEMINI_MODEL,
-            messages: [
-                {
-                    role: "system",
-                    content: systemPrompt
-                },
-                {
-                    role: "user",
-                    content: userPrompt,
-                },
-            ],
-            response_format: { type: "json_object" }
-        })
-        const extractedData = aiResponse.choices[0].message.content
-        const parsedData = JSON.parse(extractedData);
-        const newResume = await Resume.create({ userId, title, ...parsedData })
+
+        const systemPrompt = "You are an expert AI agent that extracts structured resume data.";
+        const userPrompt = `Extract structured resume data from the following text and respond ONLY in valid JSON format:
+
+${resumeText}
+
+Format JSON strictly as:
+{
+    "professional_summary": "Summary string here",
+    "skills": ["Skill 1", "Skill 2"],
+    "personal_info": {
+        "full_name": "",
+        "profession": "",
+        "email": "",
+        "phone": "",
+        "location": "",
+        "linkedin": "",
+        "website": ""
+    },
+    "experience": [
+        {
+            "company": "",
+            "position": "",
+            "start_date": "",
+            "end_date": "",
+            "description": "",
+            "is_current": false
+        }
+    ],
+    "project": [
+        {
+            "name": "",
+            "type": "",
+            "description": ""
+        }
+    ],
+    "education": [
+        {
+            "institution": "",
+            "degree": "",
+            "field": "",
+            "graduation_date": "",
+            "gpa": ""
+        }
+    ]
+}`;
+
+        let extractedData = await getAiResponseText(systemPrompt, userPrompt, true);
+        extractedData = extractedData.replace(/```json\s*|\s*```/g, "").trim();
+        let parsedData = {};
+        try {
+            parsedData = JSON.parse(extractedData);
+        } catch (jsonErr) {
+            console.error("JSON parse error from AI response:", jsonErr);
+        }
+
+        const newResume = await Resume.create({
+            userId,
+            title: title || "Uploaded Resume",
+            ...parsedData
+        });
+
         return successResponse(res, 200, "Resume Uploaded Successfully", { resumeId: newResume._id });
     } catch (error) {
-        return errorResponse(res, 400, error.message, error);
+        console.error("Upload Resume Error:", error);
+        return errorResponse(res, 400, error.message || "AI Resume Upload Failed", error);
     }
-}
+};
