@@ -194,6 +194,26 @@ const Dashboard = () => {
     }
   };
 
+  const handleOpenCreateModal = () => {
+    if (allResumes.length >= 1) {
+      toast.error("Limit reached: You can only create 1 resume on the free plan. Delete your existing resume to create a new one.");
+      return;
+    }
+    setEditId("");
+    setResumeTitle("");
+    setShowCreateResumeModal(true);
+  };
+
+  const handleOpenUploadModal = () => {
+    if (allResumes.length >= 1) {
+      toast.error("Limit reached: You can only create 1 resume on the free plan. Delete your existing resume to upload a new one.");
+      return;
+    }
+    setResumeTitle("");
+    setResume(null);
+    setShowUploadResumeModal(true);
+  };
+
   const editResumeTitle = (resumeItem) => {
     setEditId(resumeItem._id);
     setResumeTitle(resumeItem.title);
@@ -293,8 +313,8 @@ const Dashboard = () => {
             <FileText className="size-5" />
           </div>
           <div>
-            <span className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Resumes</span>
-            <span className="text-lg font-bold text-slate-900 dark:text-white">{allResumes.length} Saved</span>
+            <span className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Account Resumes</span>
+            <span className="text-lg font-bold text-slate-900 dark:text-white">{allResumes.length} / 1 Limit</span>
           </div>
         </div>
 
@@ -329,15 +349,30 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Single Resume Limit Banner */}
+      {allResumes.length >= 1 && (
+        <div className="relative z-10 mb-4 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="size-8 rounded-xl bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0">
+              <Sparkles className="size-4" />
+            </div>
+            <div>
+              <p className="text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-200">
+                Single Resume Limit Reached (1/1)
+              </p>
+              <p className="text-xs text-amber-700 dark:text-amber-400">
+                Free plan allows 1 resume per user. Delete your existing resume to create or upload a new one.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Primary Quick Action Cards */}
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 py-4">
         {/* Create Resume Card */}
         <div
-          onClick={() => {
-            setEditId("");
-            setResumeTitle("");
-            setShowCreateResumeModal(true);
-          }}
+          onClick={handleOpenCreateModal}
           className="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 border border-blue-500/30 hover:border-blue-600 cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[170px] transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-blue-500/10"
         >
           <div className="flex items-start justify-between">
@@ -346,8 +381,12 @@ const Dashboard = () => {
                 <PlusIcon className="size-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
-            <span className="text-[10px] font-mono uppercase bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50 px-2.5 py-1 rounded-full font-bold tracking-wider">
-              Start Fresh
+            <span className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded-full font-bold tracking-wider border ${
+              allResumes.length >= 1
+                ? "bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/50"
+                : "bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50"
+            }`}>
+              {allResumes.length >= 1 ? "1/1 Limit Reached" : "Start Fresh"}
             </span>
           </div>
 
@@ -364,11 +403,7 @@ const Dashboard = () => {
 
         {/* Upload Resume Card */}
         <div
-          onClick={() => {
-            setResumeTitle("");
-            setResume(null);
-            setShowUploadResumeModal(true);
-          }}
+          onClick={handleOpenUploadModal}
           className="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 border border-sky-500/30 hover:border-sky-600 cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[170px] transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-sky-500/10"
         >
           <div className="flex items-start justify-between">
@@ -377,8 +412,12 @@ const Dashboard = () => {
                 <UploadCloudIcon className="size-6 text-sky-600 dark:text-sky-400" />
               </div>
             </div>
-            <span className="text-[10px] font-mono uppercase bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800/50 px-2.5 py-1 rounded-full font-bold tracking-wider">
-              PDF AI Parser
+            <span className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded-full font-bold tracking-wider border ${
+              allResumes.length >= 1
+                ? "bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/50"
+                : "bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/50"
+            }`}>
+              {allResumes.length >= 1 ? "1/1 Limit Reached" : "PDF AI Parser"}
             </span>
           </div>
 

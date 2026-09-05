@@ -12,12 +12,18 @@ export const createResume = async (req, res) => {
         // get the userId from token the middleware 
         const userId = req.userId;
         const { title } = req.body;
+
+        const existingCount = await Resume.countDocuments({ userId });
+        if (existingCount >= 1) {
+            return errorResponse(res, 400, "Limit reached: You can only create 1 resume on the free plan. Delete your existing resume to create a new one.");
+        }
+
         const newResume = await Resume.create({
             userId, title
         })
         return successResponse(res, 200, "Resume Created Successfully!", { resume: newResume });
     } catch (error) {
-        return errorResponse(res, 400, "Failed to retrieve reusme", error);
+        return errorResponse(res, 400, "Failed to create resume", error);
 
     }
 }

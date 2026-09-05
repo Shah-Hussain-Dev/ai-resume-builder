@@ -103,7 +103,7 @@ const Login = () => {
       {/* Main Grid Content */}
       <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1 flex items-center justify-center">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
+
           {/* LEFT SIDE: Visual Showcase Panel (Desktop) */}
           <div className="hidden lg:flex lg:col-span-6 flex-col justify-center pr-8 space-y-8">
             {/* Brand Title Badge */}
@@ -156,7 +156,7 @@ const Login = () => {
           {/* RIGHT SIDE: Auth Card (Form) */}
           <div className="col-span-1 lg:col-span-6 flex justify-center lg:justify-end">
             <div className="w-full max-w-md glass-card rounded-3xl p-7 sm:p-9 border border-slate-200/90 dark:border-blue-500/20 shadow-2xl relative z-10 transition-all duration-300">
-              
+
               {/* Header & Logo */}
               <div className="flex flex-col items-center text-center mb-6">
                 <Link to="/" className="flex items-center gap-3 mb-3 group">
@@ -181,22 +181,20 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setState("login")}
-                    className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all duration-300 ${
-                      state === "login"
+                    className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all duration-300 ${state === "login"
                         ? "btn-royal-gradient text-white shadow-md"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                    }`}
+                      }`}
                   >
                     Sign In
                   </button>
                   <button
                     type="button"
                     onClick={() => setState("register")}
-                    className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all duration-300 ${
-                      state === "register"
+                    className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all duration-300 ${state === "register"
                         ? "btn-royal-gradient text-white shadow-md"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                    }`}
+                      }`}
                   >
                     Sign Up
                   </button>
@@ -248,7 +246,7 @@ const Login = () => {
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                       Password
                     </label>
-                    {state === "login" && (
+                    {/* {state === "login" && (
                       <button
                         type="button"
                         onClick={() => toast.error("Password reset link sent if account exists")}
@@ -256,7 +254,7 @@ const Login = () => {
                       >
                         Forgot Password?
                       </button>
-                    )}
+                    )} */}
                   </div>
                   <div className="relative">
                     <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-blue-600 dark:text-blue-400" />

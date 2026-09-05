@@ -77,6 +77,11 @@ export const uploadResume = async (req, res) => {
         const { resumeText, title } = req.body;
         const userId = req.userId;
 
+        const existingCount = await Resume.countDocuments({ userId });
+        if (existingCount >= 1) {
+            return errorResponse(res, 400, "Limit reached: You can only create 1 resume on the free plan. Delete your existing resume to upload a new one.");
+        }
+
         if (!resumeText) {
             return errorResponse(res, 400, "Missing required resumeText field");
         }
