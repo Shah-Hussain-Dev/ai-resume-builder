@@ -14,6 +14,7 @@ const ReusmePreview = ({
     classes = "",
     hideOuterWrapper = false,
     showFooter = true,
+    containerId = "resume-preview",
 }) => {
     if (!resumeData) return null;
 
@@ -27,28 +28,20 @@ const ReusmePreview = ({
         "Courier Prime": "'Courier Prime', monospace",
     };
 
-    const fontFamilyStyle = fontMap[customSettings.font_family] || fontMap["Plus Jakarta Sans"];
+    const fontFamilyStyle = fontMap[customSettings?.font_family] || fontMap["Plus Jakarta Sans"];
 
-    const fontSizeClass =
-        customSettings.font_size === "small"
-            ? "text-[12px]"
-            : customSettings.font_size === "large"
-            ? "text-[15px]"
-            : "text-[13.5px]";
+    // Base & Heading font sizes (pt)
+    const baseFontSizePt = customSettings?.base_font_size ?? 10;
+    const nameFontSizePt = baseFontSizePt + (customSettings?.name_font_size ?? 5);
+    const titleFontSizePt = baseFontSizePt + (customSettings?.title_font_size ?? 2);
+    const headingFontSizePt = baseFontSizePt + (customSettings?.heading_font_size ?? 1);
+    const entryHeaderSizePt = baseFontSizePt + (customSettings?.entry_header_font_size ?? 0);
 
-    const lineHeightStyle =
-        customSettings.line_height === "compact"
-            ? "1.35"
-            : customSettings.line_height === "relaxed"
-            ? "1.75"
-            : "1.5";
-
-    const paddingClass =
-        customSettings.paper_padding === "compact"
-            ? "p-4 sm:p-6"
-            : customSettings.paper_padding === "wide"
-            ? "p-8 sm:p-14"
-            : "p-6 sm:p-10";
+    // Spacing & Margins
+    const lineHeightVal = customSettings?.line_height_val ?? 1.3;
+    const spaceBetweenPx = customSettings?.space_between_elements ?? 10;
+    const marginLRPx = customSettings?.margin_lr ?? 10;
+    const marginTBPx = customSettings?.margin_tb ?? 10;
 
     const renderTemplate = () => {
         switch (template) {
@@ -69,12 +62,40 @@ const ReusmePreview = ({
 
     const paperContent = (
         <div className="w-full max-w-[210mm] min-h-[297mm] bg-white text-slate-900 shadow-2xl shadow-slate-950/30 ring-1 ring-slate-900/10 rounded-sm relative transition-all duration-300 mx-auto">
+            <style>{`
+                #${containerId}, #${containerId} * {
+                    font-family: ${fontFamilyStyle} !important;
+                }
+                #${containerId} {
+                    line-height: ${lineHeightVal} !important;
+                    font-size: ${baseFontSizePt}pt !important;
+                    padding: ${marginTBPx}mm ${marginLRPx}mm !important;
+                }
+                #${containerId} h1 {
+                    font-size: ${nameFontSizePt}pt !important;
+                }
+                #${containerId} p.profession, #${containerId} .profession-title {
+                    font-size: ${titleFontSizePt}pt !important;
+                }
+                #${containerId} h2 {
+                    font-size: ${headingFontSizePt}pt !important;
+                    margin-bottom: ${Math.max(2, spaceBetweenPx * 0.4)}px !important;
+                }
+                #${containerId} h3, #${containerId} h4, #${containerId} .entry-header {
+                    font-size: ${entryHeaderSizePt}pt !important;
+                }
+                #${containerId} section, #${containerId} header {
+                    margin-bottom: ${spaceBetweenPx}px !important;
+                }
+            `}</style>
             <div
-                id="resume-preview"
-                className={`${classes} ${paddingClass} ${fontSizeClass} transition-all duration-200`}
+                id={containerId}
+                className={`${classes} transition-all duration-200`}
                 style={{
                     fontFamily: fontFamilyStyle,
-                    lineHeight: lineHeightStyle,
+                    lineHeight: lineHeightVal,
+                    fontSize: `${baseFontSizePt}pt`,
+                    padding: `${marginTBPx}mm ${marginLRPx}mm`,
                 }}
             >
                 {renderTemplate()}
@@ -96,16 +117,16 @@ const ReusmePreview = ({
     }
 
     return (
-        <div className="w-full bg-slate-200/80 dark:bg-slate-950/90 p-4 sm:p-8 flex justify-center items-start min-h-[900px] overflow-x-auto">
+        <div className="w-full flex justify-center items-start overflow-x-auto">
             <style>{`
                 @media print {
                     body * {
                         visibility: hidden;
                     }
-                    #resume-preview, #resume-preview * {
+                    #${containerId}, #${containerId} * {
                         visibility: visible;
                     }
-                    #resume-preview {
+                    #${containerId} {
                         position: absolute;
                         left: 0;
                         top: 0;

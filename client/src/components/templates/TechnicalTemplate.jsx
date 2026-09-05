@@ -21,7 +21,7 @@ const TechnicalTemplate = ({ data, accentColor = "#2563EB" }) => {
   const projectsList = data.projects || data.project || [];
 
   return (
-    <div className="max-w-4xl mx-auto bg-white text-slate-900 p-8 shadow-sm font-sans leading-normal">
+    <div className="max-w-4xl mx-auto bg-white text-slate-900 shadow-sm leading-normal">
       {/* Top Accent Accent Line */}
       <div className="h-2 w-full rounded-t mb-6" style={{ backgroundColor: accentColor }} />
 

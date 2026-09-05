@@ -22,10 +22,11 @@ const ModernTemplate = ({ data, accentColor }) => {
 	return (
 		<div className="max-w-4xl mx-auto bg-white text-gray-800">
 			{/* Header */}
-			<header className="p-8 text-white" style={{ backgroundColor: accentColor }}>
-				<h1 className="text-4xl font-light mb-3">
-					{data.personal_info?.full_name || "Your Name"}
-				</h1>
+			<header className="p-8 text-white flex items-center justify-between gap-6" style={{ backgroundColor: accentColor }}>
+				<div className="flex-1">
+					<h1 className="text-4xl font-light mb-3">
+						{data.personal_info?.full_name || "Your Name"}
+					</h1>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm ">
 					{data.personal_info?.email && (
@@ -59,6 +60,20 @@ const ModernTemplate = ({ data, accentColor }) => {
 						</a>
 					)}
 				</div>
+				</div>
+				{data.personal_info?.image && (
+					<img
+						src={
+							typeof data.personal_info.image === "string"
+								? data.personal_info.image
+								: data.personal_info.image instanceof File || data.personal_info.image instanceof Blob
+								? URL.createObjectURL(data.personal_info.image)
+								: ""
+						}
+						alt="Profile"
+						className="w-24 h-24 rounded-full object-cover border-2 border-white/40 shrink-0"
+					/>
+				)}
 			</header>
 
 			<div className="p-8">

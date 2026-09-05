@@ -21,7 +21,7 @@ const ExecutiveTemplate = ({ data, accentColor = "#1E3A8A" }) => {
   const projectsList = data.projects || data.project || [];
 
   return (
-    <div className="max-w-4xl mx-auto bg-white text-slate-800 p-8 shadow-sm leading-normal font-sans">
+    <div className="max-w-4xl mx-auto bg-white text-slate-800 shadow-sm leading-normal">
       {/* Executive Header Banner */}
       <header className="border-b-2 pb-6 mb-6" style={{ borderColor: accentColor }}>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight uppercase mb-1" style={{ color: accentColor }}>

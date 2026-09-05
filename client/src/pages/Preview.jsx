@@ -81,6 +81,7 @@ const Preview = () => {
               resumeData={resumeData}
               template={resumeData.template || 'minimal-image'}
               accentColor={resumeData.accent_color || '#2563EB'}
+              customSettings={resumeData.custom_settings}
               classes="bg-white text-slate-900"
             />
           </div>

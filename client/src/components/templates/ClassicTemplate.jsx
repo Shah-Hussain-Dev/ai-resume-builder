@@ -57,7 +57,7 @@ const ClassicTemplate = ({ data, accentColor = "#003366" }) => {
     if (data.personal_info?.website) contactItems.push(data.personal_info.website);
 
     return (
-        <div className="max-w-4xl mx-auto p-8 bg-white text-gray-900 font-sans leading-normal">
+        <div className="max-w-4xl mx-auto bg-white text-gray-900 leading-normal">
             {/* Header */}
             <header className="text-center mb-6 pb-3 border-b-2" style={{ borderColor: accentColor }}>
                 <h1 className="text-3xl font-extrabold uppercase tracking-wide mb-1" style={{ color: accentColor }}>

@@ -79,37 +79,79 @@ export const getPublicResumeById = async (req, res) => {
 export const updateResume = async (req, res) => {
     try {
         const userId = req.userId;
-        const { resumeId, resumeData, removeBackground } = req.body
+        const { resumeId, resumeData, removeBackground } = req.body;
         const image = req.file;
 
-        let resumeDataCopy = JSON.parse(resumeData);
+        if (!resumeData) {
+            return errorResponse(res, 400, "Resume data is required");
+        }
+
+        let resumeDataCopy;
+        if (typeof resumeData === "string") {
+            try {
+                resumeDataCopy = JSON.parse(resumeData);
+            } catch (parseErr) {
+                return errorResponse(res, 400, "Invalid JSON in resumeData");
+            }
+        } else {
+            resumeDataCopy = { ...resumeData };
+        }
+
+        const targetId = resumeId || (resumeDataCopy && resumeDataCopy._id);
+
+        if (!targetId) {
+            return errorResponse(res, 400, "Resume ID is required");
+        }
 
         if (image) {
-            const imageBufferData = fs.createReadStream(image.path)
-            
+            const imageBufferData = fs.createReadStream(image.path);
+
             let transformation = 'w-300,h-300,c-maintain';
             if (removeBackground === 'yes' || removeBackground === true) {
                 transformation += ',e-bgremove';
             }
             transformation += ',fo-face,z-0.75';
-            
-            const response = await imagekit.files.upload({
-                file: imageBufferData,
-                fileName: `resume-${Date.now()}.png`,
-                folder: 'user-resumes',
-                transformation: {
-                    pre: transformation
-                }``
-            });
-            resumeDataCopy.personal_info.image = response.url
+
+            try {
+                const uploadFn = (imagekit.files && typeof imagekit.files.upload === 'function')
+                    ? imagekit.files.upload.bind(imagekit.files)
+                    : (typeof imagekit.upload === 'function' ? imagekit.upload.bind(imagekit) : null);
+
+                if (!uploadFn) {
+                    throw new Error("ImageKit upload function is not available on ImageKit SDK instance");
+                }
+
+                const response = await uploadFn({
+                    file: imageBufferData,
+                    fileName: `resume-${Date.now()}.png`,
+                    folder: 'user-resumes',
+                    transformation: {
+                        pre: transformation
+                    }
+                });
+                if (resumeDataCopy.personal_info) {
+                    resumeDataCopy.personal_info.image = response.url;
+                }
+            } catch (imgErr) {
+                console.error("ImageKit upload error:", imgErr);
+            }
         }
 
-        const resume = await Resume.findByIdAndUpdate({ userId, _id: resumeId },
-            resumeDataCopy, { new: true })
+        const resume = await Resume.findOneAndUpdate(
+            { _id: targetId, userId },
+            resumeDataCopy,
+            { new: true }
+        );
+
+        if (!resume) {
+            return errorResponse(res, 404, "Resume not found or unauthorized!");
+        }
+
         return successResponse(res, 200, "Resume Updated Successfully!", { resume });
     }
     catch (error) {
-        return res.status(400).json({ message: error.message })
+        console.error("Update Resume Error:", error);
+        return errorResponse(res, 400, "Failed to update resume", error.message || error);
     }
 }
 

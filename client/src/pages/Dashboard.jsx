@@ -204,6 +204,20 @@ const Dashboard = () => {
     r.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const getAverageAtsScore = () => {
+    if (!allResumes || allResumes.length === 0) return "N/A";
+    let totalScore = 0;
+    allResumes.forEach((r) => {
+      let score = 50; // Base ATS single column score
+      if (r.professional_summary && r.professional_summary.trim().length > 15) score += 15;
+      if (r.experience && r.experience.length > 0) score += 15;
+      if (r.education && r.education.length > 0) score += 10;
+      if (r.skills && r.skills.length > 0) score += 10;
+      totalScore += score;
+    });
+    return `${Math.round(totalScore / allResumes.length)}% Avg Score`;
+  };
+
   return (
     <div className="min-h-[calc(100vh-65px)] bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white py-8 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto relative overflow-hidden transition-colors duration-300">
       {/* Soft Radial Ambient Glow */}
@@ -290,7 +304,7 @@ const Dashboard = () => {
           </div>
           <div>
             <span className="block text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS Score</span>
-            <span className="text-lg font-bold text-slate-900 dark:text-white">98% Avg Score</span>
+            <span className="text-lg font-bold text-slate-900 dark:text-white">{getAverageAtsScore()}</span>
           </div>
         </div>
 

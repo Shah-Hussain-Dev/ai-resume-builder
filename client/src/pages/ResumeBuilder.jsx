@@ -31,7 +31,8 @@ import {
   MapPin,
   Globe,
   Linkedin,
-  X
+  X,
+  Maximize2
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -58,6 +59,7 @@ const ResumeBuilder = () => {
   const [saving, setSaving] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [showAtsModal, setShowAtsModal] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
 
   const [resumeData, setResumeData] = useState({
     _id: "",
@@ -75,10 +77,15 @@ const ResumeBuilder = () => {
     public: false,
     custom_settings: {
       font_family: "Plus Jakarta Sans",
-      font_size: "normal",
-      line_height: "normal",
-      section_spacing: "normal",
-      paper_padding: "normal",
+      base_font_size: 10,
+      name_font_size: 5,
+      title_font_size: 2,
+      heading_font_size: 1,
+      entry_header_font_size: 0,
+      line_height_val: 1.3,
+      space_between_elements: 10,
+      margin_lr: 10,
+      margin_tb: 10,
     },
   });
 
@@ -142,6 +149,26 @@ const ResumeBuilder = () => {
   useEffect(() => {
     loadExistingData();
   }, [resumeId, token]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && showPreviewModal) {
+        setShowPreviewModal(false);
+      }
+    };
+
+    if (showPreviewModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showPreviewModal]);
 
   const handleDownload = () => {
     const printContent = document.getElementById("resume-preview");
@@ -299,7 +326,7 @@ const ResumeBuilder = () => {
     <div className="min-h-screen bg-[#f4f5f8] dark:bg-[#090D16] text-slate-900 dark:text-white pb-16 transition-colors duration-300">
       {/* Top Header Navigation Bar matching Screenshot */}
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 py-2.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-[1650px] mx-auto flex items-center justify-between gap-4">
           
           {/* Left Navigation Tabs */}
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -436,7 +463,7 @@ const ResumeBuilder = () => {
       </header>
 
       {/* Main Container Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+      <div className="max-w-[1650px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-start">
           
           {/* Left Column Builder Panel (5 Cols) */}
@@ -483,7 +510,13 @@ const ResumeBuilder = () => {
                       <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 flex items-center justify-center overflow-hidden">
                         {pInfo.image ? (
                           <img
-                            src={typeof pInfo.image === "string" ? pInfo.image : URL.createObjectURL(pInfo.image)}
+                            src={
+                              typeof pInfo.image === "string"
+                                ? pInfo.image
+                                : pInfo.image instanceof File || pInfo.image instanceof Blob
+                                ? URL.createObjectURL(pInfo.image)
+                                : ""
+                            }
                             alt="Avatar"
                             className="w-full h-full object-cover"
                           />
@@ -885,30 +918,39 @@ const ResumeBuilder = () => {
             )}
 
             {/* TAB: OVERVIEW VIEW */}
-            {activeTab === "overview" && (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-sm space-y-4">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <LayoutGrid className="size-5 text-blue-600 dark:text-blue-400" /> Resume Strength & Completeness
-                </h3>
-                <div className="p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/30 rounded-xl flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">ATS Optimization Readiness</p>
-                    <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200">100% Single-Column Layout Ready</p>
+            {activeTab === "overview" && (() => {
+              let score = 50;
+              if (pInfo.full_name && pInfo.email) score += 10;
+              if (resumeData.professional_summary && resumeData.professional_summary.trim().length > 15) score += 15;
+              if (resumeData.experience && resumeData.experience.length > 0) score += 10;
+              if (resumeData.education && resumeData.education.length > 0) score += 8;
+              if (resumeData.skills && resumeData.skills.length > 0) score += 7;
+              return (
+                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-sm space-y-4">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <LayoutGrid className="size-5 text-blue-600 dark:text-blue-400" /> Resume Strength & Completeness
+                  </h3>
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/30 rounded-xl flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">ATS Optimization Readiness</p>
+                      <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200">100% Single-Column Layout Ready</p>
+                    </div>
+                    <span className="text-2xl font-black text-emerald-600">{score}%</span>
                   </div>
-                  <span className="text-2xl font-black text-emerald-600">98%</span>
-                </div>
 
-                <div className="space-y-2 pt-2">
-                  <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Section Completion:</p>
-                  <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
-                    <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Personal Info (Contact & Location)</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Professional Experience ({resumeData.experience?.length || 0} entries)</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Education ({resumeData.education?.length || 0} entries)</li>
-                    <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Skills ({resumeData.skills?.length || 0} listed)</li>
-                  </ul>
+                  <div className="space-y-2 pt-2">
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Section Completion:</p>
+                    <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+                      <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Personal Info ({pInfo.full_name ? "Complete" : "Incomplete"})</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Professional Summary ({resumeData.professional_summary ? "Provided" : "Empty"})</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Professional Experience ({resumeData.experience?.length || 0} entries)</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Education ({resumeData.education?.length || 0} entries)</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 className="size-4 text-emerald-500" /> Skills ({resumeData.skills?.length || 0} listed)</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* TAB: AI TOOLS VIEW */}
             {activeTab === "ai_tools" && (
@@ -965,7 +1007,17 @@ const ResumeBuilder = () => {
 
           {/* Right Column Sticky Live Resume Preview (7 Cols) */}
           <div className="lg:col-span-7 sticky top-20">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10 bg-white max-h-[88vh] overflow-y-auto">
+            <div
+              onClick={() => setShowPreviewModal(true)}
+              className="relative group cursor-pointer max-h-[calc(100vh-6rem)] overflow-y-auto pr-1"
+              title="Click to open full resume preview modal"
+            >
+              {/* Hover Badge Indicator */}
+              <div className="absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-slate-900/90 text-white backdrop-blur-md text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 pointer-events-none">
+                <Maximize2 className="size-3.5 text-blue-400" />
+                <span>Expand Full Preview</span>
+              </div>
+
               <ReusmePreview
                 resumeData={resumeData}
                 template={resumeData.template}
@@ -986,6 +1038,65 @@ const ResumeBuilder = () => {
         resumeData={resumeData}
         onUpdateSkills={(newSkills) => setResumeData({ ...resumeData, skills: newSkills })}
       />
+
+      {/* Full Resume Preview Modal */}
+      {showPreviewModal && (
+        <div
+          onClick={() => setShowPreviewModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative bg-slate-100 dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+          >
+            {/* Modal Header */}
+            <div className="px-6 py-3.5 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-white dark:bg-slate-950 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="size-9 rounded-xl bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <Maximize2 className="size-4" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white leading-snug">
+                    Full Resume Preview
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    {resumeData.title || "Untitled Resume"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleDownload}
+                  className="btn-royal-gradient px-4 py-2 rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Download className="size-3.5" />
+                  <span>Download PDF</span>
+                </button>
+                <button
+                  onClick={() => setShowPreviewModal(false)}
+                  className="p-1.5 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                  title="Close Modal (Esc)"
+                >
+                  <X className="size-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body - Smooth Independent Scrollable Container */}
+            <div className="p-4 sm:p-8 overflow-y-auto bg-slate-200/50 dark:bg-slate-950/70 flex-1 flex justify-center items-start">
+              <ReusmePreview
+                resumeData={resumeData}
+                template={resumeData.template}
+                accentColor={resumeData.accent_color}
+                customSettings={resumeData.custom_settings}
+                classes="bg-white text-slate-800"
+                containerId="modal-resume-preview"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

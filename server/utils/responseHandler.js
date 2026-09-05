@@ -9,9 +9,18 @@ export const successResponse = (res, statusCode = 200, message = 'Success', data
 };
 
 export const errorResponse = (res, statusCode = 500, message = 'Internal Server Error', error = null) => {
+  let errText = null;
+  if (error) {
+    errText = typeof error === 'string' ? error : (error.message || String(error));
+  } else if (typeof message !== 'string') {
+    errText = String(message);
+  }
+
+  const responseMessage = typeof message === 'string' ? message : (errText || 'Internal Server Error');
+
   return res.status(statusCode).json({
     success: false,
-    message,
-    error: error ? error.message : null
+    message: responseMessage,
+    error: errText
   });
 };

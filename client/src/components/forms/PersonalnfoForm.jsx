@@ -89,14 +89,20 @@ const PersonalnfoForm = ({
       {/* Image Upload Section */}
       <div className="mt-6">
         <div className="flex flex-col items-center justify-center">
-          <label className="cursor-pointer">
+          <label htmlFor="profile-image-input" className="cursor-pointer group flex flex-col items-center">
             <div className="flex flex-col items-center justify-center">
               {data.image ? (
                 <div className="relative group">
                   <img
-                    src={typeof data.image === "string" ? data.image : URL.createObjectURL(data.image)}
+                    src={
+                      typeof data.image === "string"
+                        ? data.image
+                        : data.image instanceof File || data.image instanceof Blob
+                        ? URL.createObjectURL(data.image)
+                        : ""
+                    }
                     alt="user-image"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-gray-100 shadow-md"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-gray-100 dark:border-slate-800 shadow-md"
                   />
                   <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                     <Camera className="text-white size-6" />
@@ -108,28 +114,30 @@ const PersonalnfoForm = ({
                       e.stopPropagation();
                       removeImage();
                     }}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 shadow-lg hover:bg-red-600 transition-all"
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 shadow-lg hover:bg-red-600 transition-all cursor-pointer z-10"
+                    title="Remove Photo"
                   >
                     <X size={14} />
                   </button>
                 </div>
               ) : (
-                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition-all duration-300 group">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 dark:border-white/20 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 dark:hover:bg-slate-800 transition-all duration-300 group">
                   <User className="size-10 text-gray-400 group-hover:text-green-500 transition-colors" />
                 </div>
               )}
             </div>
+            <span className="text-sm text-gray-500 dark:text-slate-400 mt-3 font-medium">
+              {data.image ? "Click to change photo" : "Upload Profile Photo"}
+            </span>
+            <input
+              id="profile-image-input"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
           </label>
-          <span className="text-sm text-gray-500 mt-3">
-            {data.image ? "Click to change photo" : "Upload Profile Photo"}
-          </span>
         </div>
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleImageChange}
-        />
 
         {/* Remove Background Toggle */}
         {data.image && (
