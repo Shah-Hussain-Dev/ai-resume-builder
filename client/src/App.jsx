@@ -6,6 +6,9 @@ import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 import { useDispatch } from "react-redux";
 import API from "./config/api";
 import { login, setLoading } from "./app/features/authSlice";
@@ -46,6 +49,9 @@ const App = () => {
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
         {/* <Route path="/login" element={<Login />} /> */}
         <Route path="view/:resumeId" element={<Preview />} />
         <Route path="app" element={<Layout />}>

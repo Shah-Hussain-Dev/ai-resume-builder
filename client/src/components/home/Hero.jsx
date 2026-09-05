@@ -90,12 +90,12 @@ export default function Hero() {
   ];
 
   const colors = [
-    { name: "Electric Indigo", value: "#6366F1" },
-    { name: "Cyber Violet", value: "#8B5CF6" },
-    { name: "Royal Blue", value: "#3B82F6" },
+    { name: "Royal Blue", value: "#2563EB" },
+    { name: "Sapphire Blue", value: "#1D4ED8" },
+    { name: "Deep Navy", value: "#1E3A8A" },
+    { name: "Cyber Sky", value: "#0284C7" },
     { name: "Teal", value: "#14B8A6" },
     { name: "Rose", value: "#F43F5E" },
-    { name: "Slate Dark", value: "#334155" },
   ];
 
   const handlePersonalField = (field, val) => {
@@ -113,45 +113,45 @@ export default function Hero() {
   return (
     <div className="relative overflow-hidden bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white transition-colors duration-300">
       {/* Background Ambient Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-indigo-500/10 dark:bg-indigo-600/15 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute top-80 right-0 w-[500px] h-[500px] bg-purple-500/10 blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-600/15 dark:bg-blue-600/20 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-80 right-0 w-[500px] h-[500px] bg-sky-500/10 blur-[160px] rounded-full pointer-events-none" />
 
       {/* Navigation Header */}
-      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#090D16]/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 lg:px-16 py-4 transition-all">
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#090D16]/80 backdrop-blur-xl border-b border-slate-200 dark:border-blue-500/15 px-4 sm:px-8 lg:px-16 py-4 transition-all">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="size-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-violet-500 p-0.5 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Sparkles className="size-5 text-indigo-400" />
+            <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
+              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+                <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-indigo-700 via-purple-600 to-violet-600 dark:from-white dark:via-slate-200 dark:to-indigo-400 bg-clip-text text-transparent">
+              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-600 dark:from-white dark:via-blue-200 dark:to-blue-400 bg-clip-text text-transparent">
                 AI Resume
               </span>
-              <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
+              <span className="text-[10px] text-blue-600 dark:text-blue-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
                 Builder Pro
               </span>
             </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
-            <a href="#demo-section" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#demo-section" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Templates Demo
             </a>
-            <a href="#features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Features
             </a>
-            <a href="#how-it-works" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#how-it-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               How It Works
             </a>
-            <a href="#templates" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#templates" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Gallery
             </a>
-            <a href="#testimonials" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#testimonials" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Reviews
             </a>
-            <a href="#faq" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href="#faq" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               FAQ
             </a>
           </div>
@@ -162,7 +162,7 @@ export default function Hero() {
             {user ? (
               <Link
                 to="/app"
-                className="px-5 py-2.5 rounded-full text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-md shadow-indigo-500/20 active:scale-95 flex items-center gap-2"
+                className="btn-royal-gradient px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2"
               >
                 Go to Dashboard <ArrowRight className="size-4" />
               </Link>
@@ -170,13 +170,13 @@ export default function Hero() {
               <>
                 <Link
                   to="/app?state=login"
-                  className="px-5 py-2.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-white/10 transition-all"
+                  className="btn-royal-outline px-5 py-2.5 rounded-full text-sm font-medium transition-all"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/app?state=register"
-                  className="px-5 py-2.5 rounded-full text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white transition-all shadow-lg shadow-indigo-500/25 active:scale-95 flex items-center gap-1.5"
+                  className="btn-royal-gradient px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-1.5"
                 >
                   Get Started Free <ArrowRight className="size-4" />
                 </Link>
@@ -201,7 +201,7 @@ export default function Hero() {
         <div className="fixed inset-0 z-[100] bg-slate-900/95 dark:bg-slate-950/95 backdrop-blur-2xl flex flex-col p-6 md:hidden text-white">
           <div className="flex items-center justify-between pb-6 border-b border-white/10">
             <div className="flex items-center gap-2">
-              <Sparkles className="size-6 text-indigo-400" />
+              <Sparkles className="size-6 text-blue-400" />
               <span className="font-bold text-lg text-white">AI Resume Builder</span>
             </div>
             <button
@@ -213,22 +213,22 @@ export default function Hero() {
           </div>
 
           <div className="flex flex-col gap-6 text-lg font-medium text-slate-200 mt-8">
-            <a href="#demo-section" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#demo-section" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               Live Template Demo
             </a>
-            <a href="#features" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#features" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               Features
             </a>
-            <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               How It Works
             </a>
-            <a href="#templates" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#templates" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               Templates
             </a>
-            <a href="#testimonials" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#testimonials" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               Testimonials
             </a>
-            <a href="#faq" onClick={() => setMenuOpen(false)} className="hover:text-indigo-400">
+            <a href="#faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
               FAQ
             </a>
           </div>
@@ -238,7 +238,7 @@ export default function Hero() {
               <Link
                 to="/app"
                 onClick={() => setMenuOpen(false)}
-                className="w-full py-3 rounded-full text-center font-semibold bg-indigo-600 text-white"
+                className="btn-royal-gradient w-full py-3 rounded-full text-center font-semibold"
               >
                 Open Dashboard
               </Link>
@@ -247,7 +247,7 @@ export default function Hero() {
                 <Link
                   to="/app?state=register"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full py-3 rounded-full text-center font-semibold bg-indigo-600 text-white"
+                  className="btn-royal-gradient w-full py-3 rounded-full text-center font-semibold"
                 >
                   Create Free Account
                 </Link>
@@ -266,7 +266,7 @@ export default function Hero() {
 
       {/* Main Hero Header */}
       <section className="pt-12 sm:pt-20 pb-16 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-xs sm:text-sm text-indigo-700 dark:text-indigo-300 mb-8 backdrop-blur-md">
+        <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-500/30 text-xs sm:text-sm text-blue-700 dark:text-blue-300 mb-8 backdrop-blur-md">
           <div className="flex -space-x-2">
             <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
@@ -300,7 +300,7 @@ export default function Hero() {
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-5xl text-balance leading-[1.15]">
           Craft ATS-Ready Resumes That <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 dark:from-indigo-400 dark:via-purple-300 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-sm">
+          <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-sky-400 dark:from-blue-400 dark:via-sky-300 dark:to-indigo-300 bg-clip-text text-transparent drop-shadow-sm">
             Land Interviews 10x Faster
           </span>
         </h1>
@@ -312,7 +312,7 @@ export default function Hero() {
         <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link
             to="/app?state=register"
-            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white transition-all shadow-xl shadow-indigo-500/25 hover:-translate-y-0.5 flex items-center justify-center gap-2 group"
+            className="btn-royal-gradient w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold flex items-center justify-center gap-2 group"
           >
             Create Resume Free
             <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
@@ -320,9 +320,9 @@ export default function Hero() {
 
           <a
             href="#demo-section"
-            className="w-full sm:w-auto px-7 py-4 rounded-full text-base font-semibold bg-white dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 hover:border-indigo-500/40 transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="btn-royal-outline w-full sm:w-auto px-7 py-4 rounded-full text-base font-semibold flex items-center justify-center gap-2 shadow-sm"
           >
-            <Play className="size-4 text-indigo-600 dark:text-indigo-400 fill-indigo-600/20" />
+            <Play className="size-4 text-blue-600 dark:text-blue-400 fill-blue-600/20" />
             Try Live Dashboard Templates
           </a>
         </div>
@@ -330,14 +330,14 @@ export default function Hero() {
 
       {/* Real Dashboard Prebuilt Templates Live Showcase Demo */}
       <section id="demo-section" className="px-4 sm:px-8 max-w-6xl mx-auto pb-24 scroll-mt-24">
-        <div className="relative glass-card rounded-3xl p-4 sm:p-8 border border-slate-200 dark:border-white/10 shadow-2xl">
-          <div className="absolute top-0 left-1/4 right-1/4 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+        <div className="relative glass-card rounded-3xl p-4 sm:p-8 border border-slate-200 dark:border-blue-500/20 shadow-2xl">
+          <div className="absolute top-0 left-1/4 right-1/4 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
 
           {/* Playground Controls Bar */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-white/10">
             <div>
               <div className="flex items-center gap-2">
-                <Layout className="size-5 text-indigo-600 dark:text-indigo-400" />
+                <Layout className="size-5 text-blue-600 dark:text-blue-400" />
                 <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white">
                   Dashboard Prebuilt Template Showcase
                 </h3>
@@ -356,7 +356,7 @@ export default function Hero() {
                     onClick={() => setActiveTemplate(tpl.id)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                       activeTemplate === tpl.id
-                        ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md shadow-blue-600/25"
                         : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}
                   >
@@ -374,7 +374,7 @@ export default function Hero() {
                     onClick={() => setAccentColor(c.value)}
                     title={c.name}
                     className={`size-5 rounded-full transition-transform ${
-                      accentColor === c.value ? "scale-125 ring-2 ring-indigo-500" : "hover:scale-110"
+                      accentColor === c.value ? "scale-125 ring-2 ring-blue-500" : "hover:scale-110"
                     }`}
                     style={{ backgroundColor: c.value }}
                   />

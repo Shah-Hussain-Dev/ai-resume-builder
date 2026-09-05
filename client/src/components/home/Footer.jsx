@@ -22,9 +22,9 @@ export default function Footer() {
         {/* Brand Info */}
         <div className="lg:col-span-4 space-y-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="size-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 p-0.5 shadow-md">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Sparkles className="size-4 text-indigo-400" />
+            <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/20">
+              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+                <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
             <span className="font-bold text-lg text-slate-900 dark:text-white">AI Resume Builder</span>
@@ -38,7 +38,7 @@ export default function Footer() {
               href="https://github.com"
               target="_blank"
               rel="noreferrer"
-              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-blue-600 dark:hover:text-blue-400 transition"
               aria-label="GitHub"
             >
               <Github className="size-4" />
@@ -47,7 +47,7 @@ export default function Footer() {
               href="https://twitter.com"
               target="_blank"
               rel="noreferrer"
-              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-blue-600 dark:hover:text-blue-400 transition"
               aria-label="Twitter"
             >
               <Twitter className="size-4" />
@@ -56,7 +56,7 @@ export default function Footer() {
               href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
-              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+              className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:text-blue-600 dark:hover:text-blue-400 transition"
               aria-label="LinkedIn"
             >
               <Linkedin className="size-4" />
@@ -69,22 +69,22 @@ export default function Footer() {
           <h4 className="font-bold text-slate-900 dark:text-white text-sm">Product</h4>
           <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-400">
             <li>
-              <a href="#features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <a href="#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 AI Features
               </a>
             </li>
             <li>
-              <a href="#how-it-works" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <a href="#how-it-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 How It Works
               </a>
             </li>
             <li>
-              <a href="#templates" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <a href="#templates" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 Resume Templates
               </a>
             </li>
             <li>
-              <a href="#testimonials" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <a href="#testimonials" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 Success Stories
               </a>
             </li>
@@ -96,17 +96,17 @@ export default function Footer() {
           <h4 className="font-bold text-slate-900 dark:text-white text-sm">Account</h4>
           <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-400">
             <li>
-              <Link to="/app?state=login" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <Link to="/app?state=login" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 Sign In
               </Link>
             </li>
             <li>
-              <Link to="/app?state=register" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <Link to="/app?state=register" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 Create Free Account
               </Link>
             </li>
             <li>
-              <Link to="/app" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+              <Link to="/app" className="hover:text-blue-600 dark:hover:text-blue-400 transition">
                 Dashboard
               </Link>
             </li>
@@ -126,11 +126,11 @@ export default function Footer() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 focus:border-indigo-500 outline-none flex-1"
+              className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 focus:border-blue-500 outline-none flex-1"
             />
             <button
               type="submit"
-              className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition"
+              className="btn-royal-gradient px-4 py-2.5 rounded-xl font-bold text-xs shadow-md"
             >
               Subscribe
             </button>
@@ -141,15 +141,15 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
         <p>© {new Date().getFullYear()} AI Resume Builder. All rights reserved.</p>
         <div className="flex items-center gap-6">
-          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
+          <Link to="/privacy-policy" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
             Privacy Policy
-          </a>
-          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
+          </Link>
+          <Link to="/terms-of-service" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
             Terms of Service
-          </a>
-          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
+          </Link>
+          <Link to="/cookie-policy" className="hover:text-slate-800 dark:hover:text-slate-300 transition">
             Cookie Policy
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

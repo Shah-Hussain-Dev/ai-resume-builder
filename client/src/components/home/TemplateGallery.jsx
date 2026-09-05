@@ -19,14 +19,16 @@ export default function TemplateGallery() {
       sampleData: {
         personal_info: {
           full_name: "Marcus Vance",
-          profession: "VP of Engineering & Strategy",
-          email: "marcus@example.com",
-          phone: "(555) 019-2834",
+          profession: "VP of Engineering & Technology Strategy",
+          email: "marcus.vance@example.com",
+          phone: "+1 (555) 019-2834",
           location: "San Francisco, CA",
-          linkedin: "https://linkedin.com/in/marcusvance",
+          linkedin: "linkedin.com/in/marcusvance",
+          website: "marcusvance.exec.com",
+          image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "Visionary Technology Executive with 12+ years of experience leading multi-disciplinary engineering organizations, scaling cloud infrastructure, and driving product roadmaps.",
+          "Visionary Technology Executive with 12+ years of experience leading multi-disciplinary engineering organizations (100+ engineers), scaling cloud infrastructure, and driving product roadmaps that delivered $45M+ ARR growth.",
         experience: [
           {
             position: "VP of Engineering",
@@ -35,17 +37,43 @@ export default function TemplateGallery() {
             end_date: "Present",
             is_current: true,
             description:
-              "• Managed 80+ software engineers across 6 globally distributed product teams.\n• Spearheaded cloud migration cutting operating costs by $2.3M annually.",
+              "• Managed 80+ software engineers across 6 globally distributed product teams.\n• Spearheaded cloud migration cutting operating infrastructure costs by $2.3M annually.\n• Scaled platform architecture to process 50M+ daily active API transactions with 99.99% uptime.",
+          },
+          {
+            position: "Director of Software Engineering",
+            company: "Enterprise Logic Tech, San Jose, CA",
+            start_date: "2017-02",
+            end_date: "2021-03",
+            is_current: false,
+            description:
+              "• Built and mentored engineering department from 15 to 45 developers.\n• Championed microservices refactoring and automated CI/CD deployment pipelines.",
+          },
+        ],
+        projects: [
+          {
+            name: "Global Enterprise Cloud Migration",
+            description: "Led multi-region AWS cloud migration for legacy enterprise platform with zero downtime.",
+          },
+          {
+            name: "AI-Powered Analytics Suite",
+            description: "Engineered predictive analytics engine processing 200GB+ telemetry data daily.",
           },
         ],
         education: [
           {
-            degree: "M.S. Computer Science",
+            degree: "M.S. Computer Science & Systems",
             institution: "UC Berkeley",
             graduation_date: "2013-05",
+            gpa: "3.9",
+          },
+          {
+            degree: "B.S. Electrical Engineering & CS",
+            institution: "Stanford University",
+            graduation_date: "2011-05",
+            gpa: "3.8",
           },
         ],
-        skills: ["Executive Leadership", "Cloud Architecture", "Product Strategy", "P&L Management", "Team Scaling"],
+        skills: ["Executive Leadership", "Cloud Architecture", "Product Strategy", "P&L Management", "Team Scaling", "Microservices", "DevOps & Security"],
       },
     },
     {
@@ -60,12 +88,14 @@ export default function TemplateGallery() {
           full_name: "David Chen",
           profession: "Lead Software Architect",
           email: "david.chen@example.com",
-          phone: "(555) 892-1049",
+          phone: "+1 (555) 892-1049",
           location: "Seattle, WA",
-          website: "https://davidchen.dev",
+          linkedin: "linkedin.com/in/davidchen-arch",
+          website: "davidchen.dev",
+          image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "Full Stack Architect specialized in microservices, distributed systems, high-concurrency Node.js / React platforms, and cloud DevOps.",
+          "Full Stack Architect specialized in microservices, distributed system design, high-concurrency Node.js / React platforms, and cloud DevOps infrastructure.",
         experience: [
           {
             position: "Lead Software Architect",
@@ -74,7 +104,26 @@ export default function TemplateGallery() {
             end_date: "Present",
             is_current: true,
             description:
-              "• Designed event-driven messaging pipelines processing 10M+ events daily.\n• Reduced API latency from 450ms to 65ms using Redis caching.",
+              "• Designed event-driven messaging pipelines using Kafka & Redis processing 10M+ events daily.\n• Reduced p99 API latency from 450ms to 65ms through query optimization & distributed caching.\n• Architected automated Kubernetes deployment pipelines with zero-downtime rolling updates.",
+          },
+          {
+            position: "Senior Full Stack Engineer",
+            company: "Nexus Data Labs, Bellevue, WA",
+            start_date: "2017-06",
+            end_date: "2020-07",
+            is_current: false,
+            description:
+              "• Developed real-time dashboard applications using React, TypeScript, GraphQL, and WebSockets.\n• Refactored legacy monolithic backend into decoupled Node.js microservices.",
+          },
+        ],
+        projects: [
+          {
+            name: "High-Throughput Stream Pipeline",
+            description: "Built scalable streaming ingestion pipeline handling 100k requests/sec using Kafka & Go.",
+          },
+          {
+            name: "Multi-Tenant Developer SaaS Platform",
+            description: "Created developer portal and REST API gateway with OAuth2 & rate limiting.",
           },
         ],
         education: [
@@ -82,9 +131,10 @@ export default function TemplateGallery() {
             degree: "B.S. Software Engineering",
             institution: "University of Washington",
             graduation_date: "2017-05",
+            gpa: "3.85",
           },
         ],
-        skills: ["TypeScript", "Node.js", "React.js", "Docker", "Kubernetes", "GraphQL", "AWS"],
+        skills: ["TypeScript", "Node.js", "React.js", "Docker", "Kubernetes", "GraphQL", "AWS", "Kafka", "System Design"],
       },
     },
     {
@@ -97,33 +147,54 @@ export default function TemplateGallery() {
       sampleData: {
         personal_info: {
           full_name: "Casey Clark",
-          profession: "Hospitality & Operations Lead",
-          email: "casey@example.com",
-          phone: "(123) 456-7890",
+          profession: "Operations & Project Management Lead",
+          email: "casey.clark@example.com",
+          phone: "+1 (555) 456-7890",
           location: "Philadelphia, PA",
+          linkedin: "linkedin.com/in/caseyclark-ops",
           image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "A results-driven bartender with five years of experience specializing in bar strategy, operations management, and guest relations.",
+          "Results-driven Operations Specialist with 6+ years of experience streamlining business processes, managing cross-functional project teams, and delivering operational efficiency gains.",
         experience: [
           {
-            position: "Head Bartender",
-            company: "Triangle Spirits, Philadelphia, PA",
+            position: "Senior Operations Lead",
+            company: "Apex Business Solutions, Philadelphia, PA",
             start_date: "2020-12",
             end_date: "Present",
             is_current: true,
             description:
-              "• Designed high-margin holiday cocktail menu.\n• Delivered service to 250+ guests daily.\n• Managed inventory and schedules.",
+              "• Managed daily business operations across 4 regional departments serving 300+ enterprise clients.\n• Reduced operational overhead by 22% through workflow automation and vendor renegotiations.\n• Led cross-functional Agile project sprints involving engineering, sales, and customer success teams.",
+          },
+          {
+            position: "Project Manager",
+            company: "Keystone Logistics, Pittsburgh, PA",
+            start_date: "2017-08",
+            end_date: "2020-11",
+            is_current: false,
+            description:
+              "• Coordinated logistics software implementation reducing order fulfillment cycle times by 35%.\n• Managed project budgets totaling $1.2M with 100% on-time milestone delivery.",
+          },
+        ],
+        projects: [
+          {
+            name: "Supply Chain Process Optimization",
+            description: "Automated inventory tracking system reducing stock discrepancies by 40%.",
+          },
+          {
+            name: "Customer Onboarding Portal",
+            description: "Redesigned client onboarding workflow, shortening time-to-value from 14 to 4 days.",
           },
         ],
         education: [
           {
-            degree: "Associate of Science in Hospitality",
-            institution: "University of Nevada",
+            degree: "B.S. Business Administration & Management",
+            institution: "University of Pennsylvania",
             graduation_date: "2017-05",
+            gpa: "3.75",
           },
         ],
-        skills: ["Bar operations", "Mixology", "Event relations", "Team leadership"],
+        skills: ["Operations Management", "Process Optimization", "Agile & Scrum", "Cross-Functional Leadership", "Vendor Relations", "Budgeting"],
       },
     },
     {
@@ -136,33 +207,54 @@ export default function TemplateGallery() {
       sampleData: {
         personal_info: {
           full_name: "Drew Miller",
-          profession: "Senior Account Executive",
-          email: "drew@example.com",
-          phone: "(555) 019-7890",
+          profession: "Senior Account Executive & Sales Director",
+          email: "drew.miller@example.com",
+          phone: "+1 (555) 019-7890",
           location: "Philadelphia, PA",
+          linkedin: "linkedin.com/in/drewmiller-sales",
           image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "Sales executive with 7+ years of experience in enterprise software, specializing in B2B SaaS growth and client retention.",
+          "High-performing Enterprise Sales Executive with 7+ years of experience driving B2B SaaS ARR growth, closing $1.5M+ contract deals, and managing key enterprise accounts.",
         experience: [
           {
-            position: "Account Executive",
-            company: "Mobility Corp",
+            position: "Senior Account Executive",
+            company: "Enterprise Software Corp, Philadelphia, PA",
             start_date: "2021-01",
             end_date: "Present",
             is_current: true,
             description:
-              "• Closed $1.4M ARR in new business in FY23.\n• Spearheaded key account strategies and high-conversion client demos.",
+              "• Exceeded FY23 quota by 145%, generating $2.4M in Net New ARR across Fortune 500 accounts.\n• Led strategic product demonstrations, contract negotiations, and C-suite stakeholder presentations.\n• Mentored team of 6 junior Account Executives on consultative selling methodologies.",
+          },
+          {
+            position: "B2B SaaS Sales Manager",
+            company: "GrowthStack Systems, New York, NY",
+            start_date: "2018-03",
+            end_date: "2020-12",
+            is_current: false,
+            description:
+              "• Managed outbound sales pipeline yielding 35% growth in quarterly deal closures.\n• Implemented Salesforce CRM automation workflows increasing rep productivity by 25%.",
+          },
+        ],
+        projects: [
+          {
+            name: "Global Enterprise Deal Acquisition",
+            description: "Closed $1.2M 3-year multi-product contract with leading financial enterprise.",
+          },
+          {
+            name: "Salesenablement Playbook",
+            description: "Authored sales playbook adopted across 50-person global sales department.",
           },
         ],
         education: [
           {
-            degree: "B.S. Business Administration",
+            degree: "B.S. Marketing & Finance",
             institution: "Penn State University",
-            graduation_date: "2019-05",
+            graduation_date: "2018-05",
+            gpa: "3.7",
           },
         ],
-        skills: ["B2B SaaS Sales", "Account Management", "CRM & Salesforce"],
+        skills: ["B2B SaaS Sales", "Enterprise Account Management", "Contract Negotiations", "Salesforce & HubSpot CRM", "Revenue Growth"],
       },
     },
     {
@@ -175,23 +267,44 @@ export default function TemplateGallery() {
       sampleData: {
         personal_info: {
           full_name: "Alex Morgan",
-          profession: "Senior Software Engineer",
+          profession: "Senior Full Stack Engineer",
           email: "alex.morgan@example.com",
           phone: "+1 (555) 019-2834",
           location: "San Francisco, CA",
-          linkedin: "https://linkedin.com/in/alexmorgan",
+          linkedin: "linkedin.com/in/alexmorgan-dev",
+          website: "alexmorgan.tech",
+          image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "Results-oriented Software Engineer with 6+ years of experience developing high-performance web applications and cloud architecture.",
+          "Results-oriented Software Engineer with 6+ years of experience developing high-performance web applications, scalable cloud API backends, and responsive user interfaces.",
         experience: [
           {
             position: "Senior Full Stack Engineer",
-            company: "TechFlow Inc",
+            company: "TechFlow Inc, San Francisco, CA",
             start_date: "2022-01",
             end_date: "Present",
             is_current: true,
             description:
-              "• Engineered cloud microservices serving 2M+ daily active users.\n• Accelerated application load speeds by 45%.",
+              "• Engineered cloud microservices serving 2M+ daily active users using React, Node.js, and PostgreSQL.\n• Accelerated frontend application page load speeds by 45% through code splitting & image optimization.\n• Led team of 5 developers building real-time collaboration features using WebSockets.",
+          },
+          {
+            position: "Frontend Software Engineer",
+            company: "WebCraft Solutions, San Jose, CA",
+            start_date: "2019-06",
+            end_date: "2021-12",
+            is_current: false,
+            description:
+              "• Built responsive Web applications using React, Redux Toolkit, and Tailwind CSS.\n• Integrated REST APIs, state management, and automated unit testing suites.",
+          },
+        ],
+        projects: [
+          {
+            name: "AI Resume Builder Platform",
+            description: "Created full-stack AI platform enabling instant resume generation and ATS score audit.",
+          },
+          {
+            name: "Real-Time Kanban Board",
+            description: "Developed drag-and-drop project board app supporting concurrent multi-user editing.",
           },
         ],
         education: [
@@ -199,9 +312,10 @@ export default function TemplateGallery() {
             degree: "B.S. Computer Science",
             institution: "Stanford University",
             graduation_date: "2019-05",
+            gpa: "3.9",
           },
         ],
-        skills: ["React.js", "TypeScript", "Node.js", "GraphQL", "Tailwind CSS"],
+        skills: ["React.js", "TypeScript", "Node.js", "Next.js", "Tailwind CSS", "PostgreSQL", "REST APIs", "Git & CI/CD"],
       },
     },
     {
@@ -214,32 +328,55 @@ export default function TemplateGallery() {
       sampleData: {
         personal_info: {
           full_name: "Sarah Jenkins",
-          profession: "Lead UX/UI Designer",
-          email: "sarah@example.com",
-          phone: "(555) 321-9876",
+          profession: "Lead UI/UX & Product Designer",
+          email: "sarah.jenkins@example.com",
+          phone: "+1 (555) 321-9876",
           location: "Austin, TX",
+          linkedin: "linkedin.com/in/sarahjenkins-design",
+          website: "sarahjenkins.design",
+          image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
         },
         professional_summary:
-          "Creative Lead with 8+ years designing intuitive digital products, design systems, and mobile applications.",
+          "Creative Product Design Lead with 8+ years designing intuitive mobile and web applications, building comprehensive multi-platform design systems, and driving user research.",
         experience: [
           {
             position: "Staff UI/UX Designer",
-            company: "PixelCraft Studio",
+            company: "PixelCraft Studio, Austin, TX",
             start_date: "2021-03",
             end_date: "Present",
             is_current: true,
             description:
-              "• Redesigned checkout workflow boosting conversion by 28%.\n• Built design system used across 12 product teams.",
+              "• Redesigned e-commerce checkout workflow boosting user checkout completion rates by 28%.\n• Built design system component library used across 12 product engineering teams.\n• Conducted 50+ user interviews and usability tests to guide product strategy.",
+          },
+          {
+            position: "Senior UX Designer",
+            company: "Interactive Digital, Dallas, TX",
+            start_date: "2017-06",
+            end_date: "2021-02",
+            is_current: false,
+            description:
+              "• Designed iOS & Android mobile banking app rated 4.8 stars with 500k+ downloads.\n• Collaborated with product managers and engineers on wireframes, interactive prototypes, and UI handoffs.",
+          },
+        ],
+        projects: [
+          {
+            name: "Global Mobile Design System",
+            description: "Created accessible, dark-mode ready UI design system component kit in Figma.",
+          },
+          {
+            name: "SaaS Analytics Web App Redesign",
+            description: "Overhauled complex data visualization dashboard, reducing task completion time by 35%.",
           },
         ],
         education: [
           {
-            degree: "B.F.A. Interactive Design",
-            institution: "UT Austin",
-            graduation_date: "2016-05",
+            degree: "B.F.A. Interactive Design & HCI",
+            institution: "University of Texas at Austin",
+            graduation_date: "2017-05",
+            gpa: "3.85",
           },
         ],
-        skills: ["Figma", "User Research", "Design Systems", "Prototyping"],
+        skills: ["Figma & Design Systems", "User Research & Usability Testing", "Wireframing & Prototyping", "UI/UX Design", "HCI & Accessibility"],
       },
     },
   ];
@@ -266,7 +403,7 @@ export default function TemplateGallery() {
       className="relative py-24 bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white border-t border-slate-200 dark:border-white/10 scroll-mt-20 overflow-hidden transition-colors"
     >
       {/* Soft Ambient Radial Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-w-6xl h-[420px] bg-gradient-to-r from-rose-300/35 via-pink-300/30 to-purple-200/35 dark:from-pink-900/15 dark:via-rose-950/20 dark:to-purple-950/15 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-w-6xl h-[420px] bg-gradient-to-r from-blue-500/15 via-indigo-500/10 to-blue-600/15 dark:from-blue-900/20 dark:via-indigo-950/25 dark:to-blue-900/20 rounded-full blur-[110px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
@@ -297,13 +434,15 @@ export default function TemplateGallery() {
                   key={`${tpl.id}-${idx}`}
                   className={`w-[310px] sm:w-[350px] shrink-0 rounded-3xl p-4 sm:p-5 border transition-all duration-500 shadow-lg hover:shadow-2xl relative group/card flex flex-col justify-between ${tpl.frameBg}`}
                 >
-                  {/* Inner Full Page Resume Preview Box (Proportioned Scale so entire template is visible) */}
-                  <div className="w-full h-[440px] sm:h-[480px] overflow-hidden rounded-2xl bg-white shadow-md relative pointer-events-none select-none border border-slate-200/80 flex justify-center">
-                    <div className="w-[794px] transform scale-[0.40] sm:scale-[0.43] origin-top-left">
+                  {/* Inner Full Page Resume Preview Box (Scaled cleanly & centered without side white bars) */}
+                  <div className="w-full h-[430px] sm:h-[470px] overflow-hidden rounded-2xl bg-white shadow-md relative pointer-events-none select-none border border-slate-200/80 flex justify-center">
+                    <div className="w-[794px] shrink-0 transform scale-[0.34] sm:scale-[0.39] origin-top center">
                       <ReusmePreview
                         resumeData={tpl.sampleData}
                         template={tpl.templateId}
                         accentColor={tpl.color}
+                        hideOuterWrapper={true}
+                        showFooter={false}
                         classes="bg-white text-slate-900 shadow-none border-none p-6"
                       />
                     </div>
@@ -321,19 +460,19 @@ export default function TemplateGallery() {
                   </div>
 
                   {/* Hover Overlay with Preview and Use This Template Buttons */}
-                  <div className="absolute inset-0 rounded-3xl bg-slate-950/50 backdrop-blur-[3px] opacity-0 group-hover/card:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 p-6 z-30">
+                  <div className="absolute inset-0 rounded-3xl bg-slate-950/60 backdrop-blur-[3px] opacity-0 group-hover/card:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 p-6 z-30">
                     <button
                       onClick={() => setPreviewModalTemplate(tpl)}
-                      className="w-full max-w-[200px] py-2.5 px-4 rounded-full bg-white hover:bg-slate-100 active:scale-95 text-slate-900 font-bold text-xs shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform translate-y-2 group-hover/card:translate-y-0"
+                      className="w-full max-w-[200px] py-2.5 px-4 rounded-full bg-white hover:bg-slate-100 active:scale-95 text-slate-900 font-bold text-xs shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform translate-y-2 group-hover/card:translate-y-0 cursor-pointer"
                     >
-                      <Eye className="size-4 text-indigo-600" />
+                      <Eye className="size-4 text-blue-600" />
                       Preview Template
                     </button>
                     <Link
                       to={`/app?state=register&template=${tpl.templateId}`}
-                      className="w-full max-w-[200px] py-2.5 px-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 active:scale-95 text-white font-bold text-xs shadow-xl shadow-orange-500/30 transition-all duration-300 flex items-center justify-center gap-2 transform translate-y-2 group-hover/card:translate-y-0"
+                      className="w-full max-w-[200px] py-2.5 px-4 rounded-full btn-royal-gradient active:scale-95 font-bold text-xs shadow-xl transition-all duration-300 flex items-center justify-center gap-2 transform translate-y-2 group-hover/card:translate-y-0"
                     >
-                      <Sparkles className="size-4 text-orange-100" />
+                      <Sparkles className="size-4 text-blue-200" />
                       Use This Template
                     </Link>
                   </div>
@@ -363,8 +502,8 @@ export default function TemplateGallery() {
                   aria-label={`Go to template ${i + 1}`}
                   className={`transition-all duration-300 rounded-full ${
                     activeDotIndex === i
-                      ? "w-3 h-3 bg-orange-500 ring-4 ring-orange-500/20"
-                      : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-orange-400"
+                      ? "w-3 h-3 bg-blue-600 ring-4 ring-blue-600/20"
+                      : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-blue-400"
                   }`}
                 />
               ))}
@@ -383,9 +522,10 @@ export default function TemplateGallery() {
           <div>
             <Link
               to="/app?state=register"
-              className="px-8 py-3.5 rounded-full border-2 border-rose-400 text-rose-500 dark:border-rose-400/80 dark:text-rose-400 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white font-bold text-sm transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-rose-500/20 inline-flex items-center gap-2"
+              className="px-8 py-3.5 rounded-full btn-royal-outline font-bold text-sm transition-all duration-300 shadow-sm hover:shadow-lg inline-flex items-center gap-2"
             >
               See All Resume Templates
+              <ArrowRight className="size-4" />
             </Link>
           </div>
         </div>
@@ -393,12 +533,12 @@ export default function TemplateGallery() {
 
       {/* FULL TEMPLATE PREVIEW MODAL */}
       {previewModalTemplate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl max-w-4xl w-full h-[92vh] max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-slate-50 dark:bg-slate-950 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="size-3 rounded-full" style={{ backgroundColor: previewModalTemplate.color }} />
+                <div className="size-3.5 rounded-full ring-4 ring-blue-500/20" style={{ backgroundColor: previewModalTemplate.color }} />
                 <div>
                   <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white leading-snug">
                     {previewModalTemplate.name} — {previewModalTemplate.role}
@@ -412,14 +552,14 @@ export default function TemplateGallery() {
               <div className="flex items-center gap-3">
                 <Link
                   to={`/app?state=register&template=${previewModalTemplate.templateId}`}
-                  className="px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-orange-500/20 flex items-center gap-1.5 transition"
+                  className="px-5 py-2.5 rounded-full btn-royal-gradient text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition active:scale-95"
                 >
-                  <Sparkles className="size-3.5 text-orange-100" /> Use This Template
+                  <Sparkles className="size-3.5 text-blue-200" /> Use This Template
                 </Link>
 
                 <button
                   onClick={() => setPreviewModalTemplate(null)}
-                  className="p-2 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition"
+                  className="p-2 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer"
                   title="Close Preview"
                 >
                   <X className="size-5" />
@@ -427,16 +567,16 @@ export default function TemplateGallery() {
               </div>
             </div>
 
-            {/* Modal Body - Full A4 Resume Preview */}
-            <div className="p-6 sm:p-8 overflow-y-auto bg-slate-100 dark:bg-slate-950 flex justify-center">
-              <div className="w-full max-w-3xl bg-white shadow-2xl rounded-lg overflow-hidden">
-                <ReusmePreview
-                  resumeData={previewModalTemplate.sampleData}
-                  template={previewModalTemplate.templateId}
-                  accentColor={previewModalTemplate.color}
-                  classes="bg-white text-slate-900 p-8"
-                />
-              </div>
+            {/* Modal Body - Full A4 Resume Preview Scrollable */}
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-8 bg-slate-100 dark:bg-slate-950 flex justify-center items-start">
+              <ReusmePreview
+                resumeData={previewModalTemplate.sampleData}
+                template={previewModalTemplate.templateId}
+                accentColor={previewModalTemplate.color}
+                hideOuterWrapper={true}
+                showFooter={true}
+                classes="bg-white text-slate-900 p-6 sm:p-10"
+              />
             </div>
           </div>
         </div>

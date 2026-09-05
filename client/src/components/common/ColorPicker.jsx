@@ -3,19 +3,17 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const ColorPicker = ({ selectedColor, onChange }) => {
   const colors = [
-    { name: "Emerald", value: "#10B981" },
+    { name: "Royal Blue", value: "#2563EB" },
+    { name: "Sapphire", value: "#1D4ED8" },
+    { name: "Deep Navy", value: "#1E3A8A" },
+    { name: "Sky Blue", value: "#0284C7" },
     { name: "Teal", value: "#14B8A6" },
+    { name: "Emerald", value: "#10B981" },
     { name: "Cyan", value: "#06B6D4" },
-    { name: "Blue", value: "#3B82F6" },
-    { name: "Indigo", value: "#6366F1" },
+    { name: "Indigo", value: "#4338CA" },
     { name: "Purple", value: "#8B5CF6" },
-    { name: "Fuchsia", value: "#D946EF" },
-    { name: "Pink", value: "#EC4899" },
     { name: "Rose", value: "#F43F5E" },
-    { name: "Red", value: "#EF4444" },
-    { name: "Orange", value: "#F97316" },
-    { name: "Amber", value: "#F59E0B" },
-    { name: "Slate", value: "#64748B" },
+    { name: "Slate", value: "#334155" },
   ];
   
   const [isOpen, setIsOpen] = useState(false);
@@ -35,13 +33,13 @@ const ColorPicker = ({ selectedColor, onChange }) => {
     <div className='relative' ref={pickerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center gap-1.5 text-xs sm:text-sm font-medium text-emerald-400 bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/30 hover:border-emerald-500/60 transition-all px-3 py-2 rounded-xl shadow-md'
+        className='flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-slate-900/90 hover:bg-blue-100 border border-blue-300 dark:border-blue-500/30 hover:border-blue-500 transition-all px-3 py-2 rounded-xl shadow-sm'
       >
         <Palette className="size-4" />
         <span className='max-sm:hidden'>Accent Color</span>
         <span
           className="size-3.5 rounded-full border border-white/20 ml-1"
-          style={{ backgroundColor: selectedColor || "#10B981" }}
+          style={{ backgroundColor: selectedColor || "#2563EB" }}
         />
       </button>
 

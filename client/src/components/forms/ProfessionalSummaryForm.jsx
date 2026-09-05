@@ -27,9 +27,9 @@ const ProfessionalSummaryForm = ({ data, onChange }) => {
         <button
           onClick={handleAiEnhance}
           disabled={enhancing || !data}
-          className='flex items-center gap-2 px-4 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all text-sm font-semibold border border-purple-100 shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed'
+          className='btn-royal-ai flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-semibold shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
         >
-          <Sparkles size={16} className={`${enhancing ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-purple-600`} />
+          <Sparkles size={16} className={`${enhancing ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-blue-200`} />
           <span>{enhancing ? 'Enhancing...' : 'AI Enhance'}</span>
         </button>
       </div>

@@ -6,7 +6,15 @@ import MinimalImageTemplate from '../templates/MinimalImageTemplate';
 import ExecutiveTemplate from '../templates/ExecutiveTemplate';
 import TechnicalTemplate from '../templates/TechnicalTemplate';
 
-const ReusmePreview = ({resumeData, template, accentColor, customSettings = {}, classes=""}) => {
+const ReusmePreview = ({
+    resumeData,
+    template,
+    accentColor,
+    customSettings = {},
+    classes = "",
+    hideOuterWrapper = false,
+    showFooter = true,
+}) => {
     if (!resumeData) return null;
 
     const fontMap = {
@@ -57,35 +65,10 @@ const ReusmePreview = ({resumeData, template, accentColor, customSettings = {}, 
             default:
                 return <ClassicTemplate data={resumeData} accentColor={accentColor} />;
         }
-    }
+    };
 
-  return (
-    <div className="w-full bg-slate-200/80 dark:bg-slate-950/90 p-4 sm:p-8 flex justify-center items-start min-h-[900px] overflow-x-auto">
-        <style>{`
-            @media print {
-                body * {
-                    visibility: hidden;
-                }
-                #resume-preview, #resume-preview * {
-                    visibility: visible;
-                }
-                #resume-preview {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    width: 100%;
-                    padding: 20px;
-                    box-shadow: none !important;
-                    border: none !important;
-                    background: white !important;
-                }
-                body {
-                    background: white !important;
-                }
-            }
-        `}</style>
-        {/* Realistic Standard A4 Paper Document Sheet View */}
-        <div className="w-full max-w-[210mm] min-h-[297mm] bg-white text-slate-900 shadow-2xl shadow-slate-950/30 ring-1 ring-slate-900/10 rounded-sm relative transition-all duration-300">
+    const paperContent = (
+        <div className="w-full max-w-[210mm] min-h-[297mm] bg-white text-slate-900 shadow-2xl shadow-slate-950/30 ring-1 ring-slate-900/10 rounded-sm relative transition-all duration-300 mx-auto">
             <div
                 id="resume-preview"
                 className={`${classes} ${paddingClass} ${fontSizeClass} transition-all duration-200`}
@@ -97,16 +80,49 @@ const ReusmePreview = ({resumeData, template, accentColor, customSettings = {}, 
                 {renderTemplate()}
             </div>
 
-            {/* Paper Sheet Footer Page Indicator Bar */}
-            <div className="print:hidden border-t border-slate-100 px-6 py-2.5 bg-slate-50 text-[11px] text-slate-400 font-mono flex items-center justify-between rounded-b-sm">
-                <span className="flex items-center gap-1.5 font-medium text-slate-500">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> A4 Standard Printable Page
-                </span>
-                <span>Page 1 of 1</span>
-            </div>
+            {showFooter && (
+                <div className="print:hidden border-t border-slate-100 px-6 py-2.5 bg-slate-50 text-[11px] text-slate-400 font-mono flex items-center justify-between rounded-b-sm">
+                    <span className="flex items-center gap-1.5 font-medium text-slate-500">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500" /> A4 Standard Printable Page
+                    </span>
+                    <span>Page 1 of 1</span>
+                </div>
+            )}
         </div>
-    </div>
-  )
-}
+    );
 
-export default ReusmePreview
+    if (hideOuterWrapper) {
+        return paperContent;
+    }
+
+    return (
+        <div className="w-full bg-slate-200/80 dark:bg-slate-950/90 p-4 sm:p-8 flex justify-center items-start min-h-[900px] overflow-x-auto">
+            <style>{`
+                @media print {
+                    body * {
+                        visibility: hidden;
+                    }
+                    #resume-preview, #resume-preview * {
+                        visibility: visible;
+                    }
+                    #resume-preview {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        padding: 20px;
+                        box-shadow: none !important;
+                        border: none !important;
+                        background: white !important;
+                    }
+                    body {
+                        background: white !important;
+                    }
+                }
+            `}</style>
+            {paperContent}
+        </div>
+    );
+};
+
+export default ReusmePreview;

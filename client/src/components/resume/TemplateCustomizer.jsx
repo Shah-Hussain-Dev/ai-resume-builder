@@ -74,138 +74,193 @@ const TemplateCustomizer = ({ customSettings = {}, onChange }) => {
   };
 
   return (
-    <div className="relative" ref={modalRef}>
+    <>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-purple-400 bg-slate-900/90 hover:bg-slate-800 border border-purple-500/30 hover:border-purple-500/60 transition-all px-3.5 py-2 rounded-xl shadow-md"
-        title="Customize Font & Template Settings"
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="w-full text-left p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all duration-300 shadow-sm hover:shadow-md group cursor-pointer flex items-center justify-between gap-4"
       >
-        <Sliders className="size-4 text-purple-400" />
-        <span className="hidden sm:inline">Typography & Layout</span>
+        <div className="flex items-center gap-3">
+          <div className="size-10 rounded-xl bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+            <Sliders className="size-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Typography & Layout</span>
+            <span className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {settings.font_family} • {settings.font_size.toUpperCase()}
+            </span>
+          </div>
+        </div>
+
+        <span className="px-3.5 py-1.5 rounded-full btn-royal-outline text-xs font-bold shadow-xs flex items-center gap-1 shrink-0">
+          Configure Layout
+        </span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 w-80 sm:w-96 p-4 mt-2 space-y-4 z-50 bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl max-h-[85vh] overflow-y-auto animate-in zoom-in-95 text-white">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <h3 className="font-bold text-sm flex items-center gap-2 text-purple-300">
-              <Sliders className="size-4" /> Template & Font Settings
-            </h3>
-            <button
-              onClick={handleReset}
-              className="text-[11px] font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition"
-            >
-              <RotateCcw className="size-3" /> Reset
-            </button>
-          </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-slate-900 dark:text-white">
+            
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-slate-50 dark:bg-slate-950 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="size-9 rounded-xl bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <Sliders className="size-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white leading-snug">
+                    Typography & Layout Settings
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Adjust font styles, sizes, line heights, and margins
+                  </p>
+                </div>
+              </div>
 
-          {/* Font Family Selection */}
-          <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-              <Type className="size-3.5 text-purple-400" /> Font Family
-            </label>
-            <select
-              value={settings.font_family}
-              onChange={(e) => handleUpdate("font_family", e.target.value)}
-              className="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs font-medium text-white focus:border-purple-500 outline-none transition"
-            >
-              {fonts.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Font Size Selector */}
-          <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-              <Type className="size-3.5 text-purple-400" /> Font Size
-            </label>
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-xl border border-white/10">
-              {fontSizes.map((s) => (
+              <div className="flex items-center gap-2">
                 <button
-                  key={s.id}
-                  onClick={() => handleUpdate("font_size", s.id)}
-                  className={`py-1.5 rounded-lg text-xs font-semibold transition ${
-                    settings.font_size === s.id
-                      ? "bg-purple-600 text-white shadow"
-                      : "text-slate-400 hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={handleReset}
+                  className="text-xs font-bold text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition flex items-center gap-1"
                 >
-                  {s.label}
+                  <RotateCcw className="size-3.5" /> Reset
                 </button>
-              ))}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1.5 rounded-full text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition cursor-pointer"
+                >
+                  <X className="size-5" />
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Line Height Selector */}
-          <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-              <AlignLeft className="size-3.5 text-purple-400" /> Line Height
-            </label>
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-xl border border-white/10">
-              {lineHeights.map((l) => (
-                <button
-                  key={l.id}
-                  onClick={() => handleUpdate("line_height", l.id)}
-                  className={`py-1.5 rounded-lg text-xs font-semibold transition ${
-                    settings.line_height === l.id
-                      ? "bg-purple-600 text-white shadow"
-                      : "text-slate-400 hover:text-white"
-                  }`}
+            {/* Modal Body */}
+            <div className="p-6 space-y-5 overflow-y-auto bg-slate-50/50 dark:bg-slate-950/50 flex-1">
+              {/* Font Family */}
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2">
+                  <Type className="size-4 text-blue-600 dark:text-blue-400" /> Font Family
+                </label>
+                <select
+                  value={settings.font_family}
+                  onChange={(e) => handleUpdate("font_family", e.target.value)}
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                 >
-                  {l.label.split(" ")[0]}
-                </button>
-              ))}
+                  {fonts.map((f) => (
+                    <option key={f.id} value={f.id}>
+                      {f.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Font Size */}
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2">
+                  <Type className="size-4 text-blue-600 dark:text-blue-400" /> Font Size
+                </label>
+                <div className="grid grid-cols-3 gap-2 p-1.5 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-white/10 shadow-xs">
+                  {fontSizes.map((s) => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => handleUpdate("font_size", s.id)}
+                      className={`py-2 rounded-lg text-xs font-bold transition ${
+                        settings.font_size === s.id
+                          ? "btn-royal-gradient text-white shadow-xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Line Height */}
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2">
+                  <AlignLeft className="size-4 text-blue-600 dark:text-blue-400" /> Line Height
+                </label>
+                <div className="grid grid-cols-3 gap-2 p-1.5 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-white/10 shadow-xs">
+                  {lineHeights.map((l) => (
+                    <button
+                      key={l.id}
+                      type="button"
+                      onClick={() => handleUpdate("line_height", l.id)}
+                      className={`py-2 rounded-lg text-xs font-bold transition ${
+                        settings.line_height === l.id
+                          ? "btn-royal-gradient text-white shadow-xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      {l.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Section Spacing */}
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2">
+                  <MoveVertical className="size-4 text-blue-600 dark:text-blue-400" /> Section Spacing
+                </label>
+                <div className="grid grid-cols-3 gap-2 p-1.5 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-white/10 shadow-xs">
+                  {sectionSpacings.map((sp) => (
+                    <button
+                      key={sp.id}
+                      type="button"
+                      onClick={() => handleUpdate("section_spacing", sp.id)}
+                      className={`py-2 rounded-lg text-xs font-bold transition ${
+                        settings.section_spacing === sp.id
+                          ? "btn-royal-gradient text-white shadow-xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      {sp.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Paper Margins */}
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2">
+                  <Maximize2 className="size-4 text-blue-600 dark:text-blue-400" /> Paper Margins
+                </label>
+                <div className="grid grid-cols-3 gap-2 p-1.5 bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-white/10 shadow-xs">
+                  {paperPaddings.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => handleUpdate("paper_padding", p.id)}
+                      className={`py-2 rounded-lg text-xs font-bold transition ${
+                        settings.paper_padding === p.id
+                          ? "btn-royal-gradient text-white shadow-xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
 
-          {/* Section Spacing */}
-          <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-              <MoveVertical className="size-3.5 text-purple-400" /> Section Spacing
-            </label>
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-xl border border-white/10">
-              {sectionSpacings.map((sp) => (
-                <button
-                  key={sp.id}
-                  onClick={() => handleUpdate("section_spacing", sp.id)}
-                  className={`py-1.5 rounded-lg text-xs font-semibold transition ${
-                    settings.section_spacing === sp.id
-                      ? "bg-purple-600 text-white shadow"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  {sp.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Paper Padding / Margins */}
-          <div>
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-              <Maximize2 className="size-3.5 text-purple-400" /> Paper Margins
-            </label>
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-xl border border-white/10">
-              {paperPaddings.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => handleUpdate("paper_padding", p.id)}
-                  className={`py-1.5 rounded-lg text-xs font-semibold transition ${
-                    settings.paper_padding === p.id
-                      ? "bg-purple-600 text-white shadow"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-950 flex items-center justify-end">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="btn-royal-gradient px-6 py-2.5 rounded-xl font-bold text-xs shadow-md cursor-pointer flex items-center gap-1.5"
+              >
+                <Check className="size-4 stroke-[3]" /> Done Customizing
+              </button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -40,12 +40,12 @@ const Preview = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white flex flex-col transition-colors duration-300">
       {/* Top Glassmorphic Navigation Header */}
-      <header className="sticky top-0 z-50 bg-white/90 dark:bg-[#090D16]/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 py-3.5">
+      <header className="sticky top-0 z-50 bg-white/90 dark:bg-[#090D16]/90 backdrop-blur-xl border-b border-slate-200 dark:border-blue-500/15 px-4 sm:px-8 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="size-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 p-0.5 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Sparkles className="size-4 text-indigo-400" />
+            <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
+              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+                <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
             <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">AI Resume</span>
@@ -54,14 +54,14 @@ const Preview = () => {
           <div className="flex items-center gap-3">
             <ThemeToggle />
 
-            <span className="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/20">
-              <ShieldCheck className="size-3.5 text-indigo-600 dark:text-indigo-400" /> Verified Public Resume
+            <span className="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/20">
+              <ShieldCheck className="size-3.5 text-blue-600 dark:text-blue-400" /> Verified Public Resume
             </span>
 
             {resumeData && (
               <button
                 onClick={handlePrint}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/20 transition active:scale-95"
+                className="btn-royal-gradient flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold"
               >
                 <Download className="size-3.5" />
                 <span>Download PDF</span>
@@ -80,7 +80,7 @@ const Preview = () => {
             <ReusmePreview
               resumeData={resumeData}
               template={resumeData.template || 'minimal-image'}
-              accentColor={resumeData.accent_color || '#6366F1'}
+              accentColor={resumeData.accent_color || '#2563EB'}
               classes="bg-white text-slate-900"
             />
           </div>
@@ -92,7 +92,7 @@ const Preview = () => {
             </p>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-md"
+              className="btn-royal-gradient inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold"
             >
               <ArrowLeft className="size-4" /> Return to Home
             </Link>

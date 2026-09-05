@@ -13,7 +13,7 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0F17] text-white font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white font-sans selection:bg-blue-600 selection:text-white transition-colors duration-300">
       {user ? (
         <>
           <Navbar />

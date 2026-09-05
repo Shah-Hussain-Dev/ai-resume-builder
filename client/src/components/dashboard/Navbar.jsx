@@ -18,20 +18,20 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 dark:bg-[#090D16]/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 py-3.5 text-slate-900 dark:text-white transition-colors duration-300">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-[#090D16]/90 backdrop-blur-xl border-b border-slate-200 dark:border-blue-500/15 px-4 sm:px-8 py-3.5 text-slate-900 dark:text-white transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/app" className="flex items-center gap-3 group">
-          <div className="size-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 p-0.5 shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Sparkles className="size-4 text-indigo-400" />
+          <div className="size-9 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-800 p-0.5 shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
+              <Sparkles className="size-4 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-base tracking-tight text-slate-900 dark:text-white">
               AI Resume
             </span>
-            <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
+            <span className="text-[10px] text-blue-600 dark:text-blue-400 font-mono tracking-widest uppercase -mt-1 font-semibold">
               Dashboard
             </span>
           </div>
@@ -43,14 +43,14 @@ const Navbar = () => {
 
           <Link
             to="/"
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 transition"
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-blue-500/40 transition"
           >
-            <Home className="size-3.5" /> Landing Page
+            <Home className="size-3.5" />  Home
           </Link>
 
           {/* User Info Badge */}
           <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-white/10 px-3 py-1.5 rounded-full">
-            <div className="size-6 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+            <div className="size-6 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-xs shadow-sm shadow-blue-600/30">
               {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
             </div>
             <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 max-w-[120px] truncate">

@@ -152,3 +152,113 @@ Format JSON strictly as:
         return errorResponse(res, 400, error.message || "AI Resume Upload Failed", error);
     }
 };
+
+// POST: /api/ai/ats-score
+export const generateAtsScore = async (req, res) => {
+    try {
+        const { resumeData, resumeText, jobDescription, jobTitle } = req.body;
+
+        if (!resumeData && !resumeText) {
+            return errorResponse(res, 400, "Missing required resume content");
+        }
+
+        if (!process.env.GEMINI_API_KEY || !process.env.GEMINI_API_KEY.trim()) {
+            return errorResponse(res, 400, "GEMINI_API_KEY is missing in server/.env file");
+        }
+
+        let formattedResume = "";
+        if (typeof resumeText === "string" && resumeText.trim()) {
+            formattedResume = resumeText.trim();
+        } else if (typeof resumeData === "object") {
+            const pInfo = resumeData.personal_info || {};
+            const expList = (resumeData.experience || []).map(e => `- ${e.position || ''} at ${e.company || ''} (${e.start_date || ''} - ${e.end_date || 'Present'}): ${e.description || ''}`).join("\n");
+            const eduList = (resumeData.education || []).map(e => `- ${e.degree || ''} in ${e.field || ''} from ${e.institution || ''} (${e.graduation_date || ''})`).join("\n");
+            const projList = (resumeData.projects || resumeData.project || []).map(p => `- ${p.name || ''}: ${p.description || ''}`).join("\n");
+            const skillsList = Array.isArray(resumeData.skills) ? resumeData.skills.join(", ") : (resumeData.skills || "");
+
+            formattedResume = `
+Name: ${pInfo.full_name || ''}
+Profession / Title: ${pInfo.profession || ''}
+Email: ${pInfo.email || ''} | Phone: ${pInfo.phone || ''} | Location: ${pInfo.location || ''}
+Professional Summary: ${resumeData.professional_summary || ''}
+Skills: ${skillsList}
+
+Work Experience:
+${expList}
+
+Education:
+${eduList}
+
+Projects:
+${projList}
+            `.trim();
+        } else if (typeof resumeData === "string") {
+            formattedResume = resumeData;
+        }
+
+        const systemPrompt = `You are a world-class Talent Acquisition Specialist and Applicant Tracking System (ATS) optimization expert. Your task is to evaluate a candidate's resume against best ATS practices and (if provided) a specific target Job Description / Job Title. Analyze keyword density, section structure, action verbs, measurable impact (quantifiable metrics), formatting readiness, and skills alignment.`;
+
+        const targetContext = (jobDescription && jobDescription.trim()) || (jobTitle && jobTitle.trim())
+            ? `Target Job Title: ${jobTitle || 'Not specified'}\nTarget Job Description:\n${jobDescription || 'N/A'}` 
+            : `Target Role: General Tech & Software Industry ATS Standards (No specific job description provided, perform comprehensive general ATS quality audit).`;
+
+        const userPrompt = `Evaluate the following resume and return ONLY a valid JSON object without markdown formatting.
+
+RESUME CONTENT:
+${formattedResume}
+
+TARGET CONTEXT:
+${targetContext}
+
+Return JSON with this exact structure:
+{
+    "overallScore": 85,
+    "scoreBreakdown": {
+        "formatting": 90,
+        "keywordMatch": 80,
+        "experienceImpact": 85,
+        "skillsRelevance": 90,
+        "sectionCompleteness": 88
+    },
+    "summary": "Executive summary of ATS readiness and key strengths/gaps in 2-3 sentences.",
+    "matchedKeywords": ["React", "Node.js", "TypeScript", "REST APIs"],
+    "missingKeywords": ["GraphQL", "Docker", "CI/CD", "AWS"],
+    "strengths": [
+        "Clear quantifiable achievements in experience section",
+        "Strong professional summary highlighting key technical stack"
+    ],
+    "weaknesses": [
+        "Missing cloud infrastructure keywords (e.g. AWS/GCP)",
+        "Some bullet points lack measurable metrics"
+    ],
+    "suggestions": [
+        {
+            "priority": "high",
+            "category": "Keywords",
+            "recommendation": "Incorporate keywords like AWS, Docker, and CI/CD into your skills or experience sections."
+        },
+        {
+            "priority": "medium",
+            "category": "Experience Impact",
+            "recommendation": "Add quantifiable results to your project bullet points."
+        }
+    ]
+}`;
+
+        let aiResultText = await getAiResponseText(systemPrompt, userPrompt, true);
+        aiResultText = aiResultText.replace(/```json\s*|\s*```/g, "").trim();
+
+        let parsedScore = {};
+        try {
+            parsedScore = JSON.parse(aiResultText);
+        } catch (parseError) {
+            console.error("Failed to parse ATS JSON response:", parseError, aiResultText);
+            throw new Error("Failed to parse structured ATS score response from AI");
+        }
+
+        return successResponse(res, 200, "ATS Score generated successfully", parsedScore);
+    } catch (error) {
+        console.error("Generate ATS Score Error:", error);
+        return errorResponse(res, 400, error.message || "ATS Score generation failed", error);
+    }
+};

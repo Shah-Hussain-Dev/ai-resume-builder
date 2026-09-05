@@ -166,9 +166,9 @@ const ExperienceForm = ({ data = [], onChange }) => {
                 <button
                   onClick={() => handleAiEnhanceWithIndex(index)}
                   disabled={enhancingIndex === index}
-                  className='flex items-center gap-2 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-all text-xs font-bold border border-purple-100 shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='btn-royal-ai flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
                 >
-                  <Sparkles size={14} className={`${enhancingIndex === index ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-purple-600`} />
+                  <Sparkles size={14} className={`${enhancingIndex === index ? 'animate-pulse' : ''} group-hover:scale-110 transition-transform text-blue-200`} />
                   <span>{enhancingIndex === index ? 'Enhancing...' : 'Enhance with AI'}</span>
                 </button>
               </div>

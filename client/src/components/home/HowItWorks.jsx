@@ -129,7 +129,7 @@ export default function HowItWorks() {
                     <div
                       className={`p-3 rounded-xl transition-colors ${
                         isActive
-                          ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
+                          ? "bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md shadow-blue-600/25"
                           : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                       }`}
                     >
@@ -141,7 +141,7 @@ export default function HowItWorks() {
                         <h3 className={`font-bold text-base sm:text-lg ${isActive ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-slate-300"}`}>
                           {step.title}
                         </h3>
-                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-white/5">
+                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-white/5">
                           {step.badge}
                         </span>
                       </div>

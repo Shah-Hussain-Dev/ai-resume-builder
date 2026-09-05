@@ -22,7 +22,7 @@ export default function Features() {
       fullDesc:
         "Input your role and responsibilities. Our AI engine generates action-oriented bullet points loaded with metrics, percentages, and business impact.",
       tag: "GPT-4 Powered",
-      color: "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-500/20 dark:border-indigo-500/40 dark:text-indigo-400"
+      color: "bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-500/20 dark:border-blue-500/40 dark:text-blue-400"
     },
     {
       id: 1,
@@ -32,7 +32,7 @@ export default function Features() {
       fullDesc:
         "Pass target job descriptions into our scanner to detect missing skills and formatting errors. Get an instant score and 1-click recommendations.",
       tag: "Realtime Score",
-      color: "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-500/20 dark:border-purple-500/40 dark:text-purple-400"
+      color: "bg-sky-50 text-sky-600 border-sky-200 dark:bg-sky-500/20 dark:border-sky-500/40 dark:text-sky-400"
     },
     {
       id: 2,
@@ -42,7 +42,7 @@ export default function Features() {
       fullDesc:
         "Generates clean ATS-standard PDF files formatted with exact margin spacing, embedded vectors, and no page-break bugs.",
       tag: "Vector PDF",
-      color: "bg-violet-50 text-violet-600 border-violet-200 dark:bg-violet-500/20 dark:border-violet-500/40 dark:text-violet-400"
+      color: "bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-500/20 dark:border-indigo-500/40 dark:text-indigo-400"
     },
     {
       id: 3,
@@ -80,7 +80,7 @@ export default function Features() {
     <section id="features" className="py-24 bg-slate-50 dark:bg-[#090D16] text-slate-900 dark:text-white relative scroll-mt-20 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
+          <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20">
             Engineered for Job Search Success
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mt-4 tracking-tight">
@@ -101,7 +101,7 @@ export default function Features() {
                 onClick={() => setActiveFeature(feat.id)}
                 className={`p-6 sm:p-8 rounded-3xl glass-card glass-card-hover border cursor-pointer relative overflow-hidden transition-all duration-300 ${
                   isSelected
-                    ? "border-indigo-500/50 bg-white dark:bg-slate-900/90 shadow-xl"
+                    ? "border-blue-500/50 bg-white dark:bg-slate-900/90 shadow-xl shadow-blue-600/10"
                     : "border-slate-200 dark:border-white/10"
                 }`}
               >

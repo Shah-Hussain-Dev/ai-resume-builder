@@ -47,6 +47,7 @@ import TemplateSelector from "../components/resume/TemplateSelector";
 import TemplateCustomizer from "../components/resume/TemplateCustomizer";
 import ColorPicker from "../components/common/ColorPicker";
 import Loader from "../components/loader/Loader";
+import AtsScoreModal from "../components/resume/AtsScoreModal";
 
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
@@ -56,6 +57,7 @@ const ResumeBuilder = () => {
   const [activeTab, setActiveTab] = useState("content"); // overview, content, customize, ai_tools
   const [saving, setSaving] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [showAtsModal, setShowAtsModal] = useState(false);
 
   const [resumeData, setResumeData] = useState({
     _id: "",
@@ -313,7 +315,7 @@ const ResumeBuilder = () => {
               onClick={() => setActiveTab("overview")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeTab === "overview"
-                  ? "bg-rose-50 text-rose-600 border border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-400"
+                  ? "bg-blue-50 text-blue-600 border border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-400"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
               }`}
             >
@@ -325,7 +327,7 @@ const ResumeBuilder = () => {
               onClick={() => setActiveTab("content")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeTab === "content"
-                  ? "bg-rose-50 text-rose-600 border border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-400"
+                  ? "bg-blue-50 text-blue-600 border border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-400"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
               }`}
             >
@@ -337,7 +339,7 @@ const ResumeBuilder = () => {
               onClick={() => setActiveTab("customize")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeTab === "customize"
-                  ? "bg-rose-50 text-rose-600 border border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-400"
+                  ? "bg-blue-50 text-blue-600 border border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-400"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
               }`}
             >
@@ -349,11 +351,11 @@ const ResumeBuilder = () => {
               onClick={() => setActiveTab("ai_tools")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                 activeTab === "ai_tools"
-                  ? "bg-rose-50 text-rose-600 border border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-400"
+                  ? "bg-blue-50 text-blue-600 border border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-400"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
               }`}
             >
-              <Wand2 className="size-4 text-purple-500" />
+              <Wand2 className="size-4 text-blue-500" />
               <span>AI Tools</span>
             </button>
           </div>
@@ -365,10 +367,20 @@ const ResumeBuilder = () => {
               <span className="max-w-[120px] truncate">{resumeData.title || "Resume 1"}</span>
             </div>
 
-            {/* Download Button matching Screenshot */}
+            {/* ATS Score Button */}
+            <button
+              onClick={() => setShowAtsModal(true)}
+              className="btn-royal-ai flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs font-bold shadow-sm"
+              title="Check ATS Score with Gemini AI"
+            >
+              <Sparkles className="size-3.5 text-amber-300 animate-pulse" />
+              <span>ATS Score</span>
+            </button>
+
+            {/* Download Button */}
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-sm transition active:scale-95"
+              className="btn-royal-gradient flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold shadow-sm"
             >
               <span>Download</span>
               <Download className="size-3.5" />
@@ -825,35 +837,45 @@ const ResumeBuilder = () => {
 
             {/* TAB: CUSTOMIZE VIEW */}
             {activeTab === "customize" && (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-sm space-y-6">
+              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-white/10 p-6 shadow-sm space-y-6">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-                    <Sliders className="size-5 text-rose-500" /> Resume Appearance & Design
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-1 flex items-center gap-2.5">
+                    <Sliders className="size-5 text-blue-600 dark:text-blue-400" /> Resume Appearance & Design
                   </h3>
-                  <p className="text-xs text-slate-500">Customize font typography, layout options, template style, and colors.</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Choose a layout template, accent theme color, and configure typography & margins.
+                  </p>
                 </div>
 
-                {/* Template Selector */}
+                {/* 1. Template Selector Card */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Template Style</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+                    1. Choose Resume Template Layout
+                  </label>
                   <TemplateSelector
                     selectedTemplate={resumeData.template}
                     onChange={(val) => setResumeData({ ...resumeData, template: val })}
+                    sampleResumeData={resumeData}
+                    accentColor={resumeData.accent_color}
                   />
                 </div>
 
-                {/* Color Picker */}
+                {/* 2. Color Picker Card */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Accent Theme Color</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+                    2. Accent Theme Color
+                  </label>
                   <ColorPicker
                     selectedColor={resumeData.accent_color}
                     onChange={(color) => setResumeData({ ...resumeData, accent_color: color })}
                   />
                 </div>
 
-                {/* Font Customizer */}
+                {/* 3. Typography Customizer Card */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Typography & Spacing</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+                    3. Typography & Page Layout
+                  </label>
                   <TemplateCustomizer
                     customSettings={resumeData.custom_settings}
                     onChange={(settings) => setResumeData({ ...resumeData, custom_settings: settings })}
@@ -866,7 +888,7 @@ const ResumeBuilder = () => {
             {activeTab === "overview" && (
               <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-sm space-y-4">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <LayoutGrid className="size-5 text-rose-500" /> Resume Strength & Completeness
+                  <LayoutGrid className="size-5 text-blue-600 dark:text-blue-400" /> Resume Strength & Completeness
                 </h3>
                 <div className="p-4 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/30 rounded-xl flex items-center justify-between">
                   <div>
@@ -892,12 +914,35 @@ const ResumeBuilder = () => {
             {activeTab === "ai_tools" && (
               <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-sm space-y-4">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Wand2 className="size-5 text-purple-500" /> AI Resume Tools
+                  <Wand2 className="size-5 text-blue-600 dark:text-blue-400" /> AI Resume Tools
                 </h3>
-                <p className="text-xs text-slate-500">Enhance bullet points, generate summaries, and tailor your content to job descriptions using Gemini AI.</p>
-                <div className="p-4 bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-500/30 rounded-xl space-y-2">
-                  <p className="text-xs font-bold text-purple-900 dark:text-purple-300">Smart Summary Generator</p>
-                  <p className="text-xs text-purple-700 dark:text-purple-400">Generates high-impact professional summaries customized for software engineering and full-stack developer roles.</p>
+                <p className="text-xs text-slate-500">Enhance bullet points, generate summaries, and calculate ATS scores using Gemini AI.</p>
+                
+                {/* ATS Score Card */}
+                <div className="p-4 bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-950 text-white rounded-2xl space-y-3 shadow-md border border-blue-500/20">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                      <Sparkles className="size-4" /> ATS Score Calculator
+                    </span>
+                    <span className="text-[10px] bg-blue-500/30 text-blue-300 font-bold px-2 py-0.5 rounded-full border border-blue-400/30">
+                      Gemini 2.5 AI
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Evaluate your resume against target Job Descriptions, uncover missing keywords, and get high-priority recommendations to pass ATS screening.
+                  </p>
+                  <button
+                    onClick={() => setShowAtsModal(true)}
+                    className="w-full btn-royal-ai py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    <Sparkles className="size-4 text-amber-300" />
+                    <span>Launch ATS Score & AI Optimizer</span>
+                  </button>
+                </div>
+
+                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-500/30 rounded-xl space-y-2">
+                  <p className="text-xs font-bold text-blue-900 dark:text-blue-300">Smart AI Enhancer</p>
+                  <p className="text-xs text-blue-700 dark:text-blue-400">Inline AI enhancement buttons are also available inside Professional Summary, Experience, and Projects sections.</p>
                 </div>
               </div>
             )}
@@ -910,7 +955,7 @@ const ResumeBuilder = () => {
               <button
                 onClick={saveResume}
                 disabled={saving}
-                className="px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 shadow-md transition active:scale-95 disabled:opacity-50 flex items-center gap-1.5"
+                className="btn-royal-gradient px-6 py-2.5 rounded-xl text-xs font-bold shadow-md disabled:opacity-50 flex items-center gap-1.5"
               >
                 <Save className="size-3.5" />
                 <span>{saving ? "Saving..." : "Save Changes"}</span>
@@ -933,6 +978,14 @@ const ResumeBuilder = () => {
 
         </div>
       </div>
+
+      {/* ATS Score Modal */}
+      <AtsScoreModal
+        isOpen={showAtsModal}
+        onClose={() => setShowAtsModal(false)}
+        resumeData={resumeData}
+        onUpdateSkills={(newSkills) => setResumeData({ ...resumeData, skills: newSkills })}
+      />
     </div>
   );
 };
